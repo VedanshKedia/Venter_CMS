@@ -1,0 +1,321 @@
+<!--
+Author: Shivam Sharma
+Learn Jinja Templating in Django before going to this code
+-->
+
+{% extends 'Login/header.html' %}
+{% block title %}Category Prediction{% endblock %}
+{% block link %}{% url 'home' %} {% endblock %}
+{% block verified %}
+    <script>
+        var con;
+        var sim;
+        function progressBarSim(al) {
+            // Setting up the ProgressBar
+            var bar = document.getElementById('progressBar');
+            var status = document.getElementById('status');
+            status.innerHTML = al + "%";
+            bar.value = al;
+            if (al == 100) {
+                bar.value = 100;
+                status.innerHTML = "100%";
+                clearTimeout(sim);
+                document.getElementById('finalMessage').innerHTML = "Processing complete";
+            }
+        }
+
+        function showLoading() {
+            $("#progress").attr('style', 'display:block; padding-top: 10px;');
+        }
+        function hideSmallLoader() {
+            $("#progress").attr('style', 'display:none');
+        }
+
+        function hideLoading() {
+            $("#tableDiv").attr('style', 'display:block');
+            $("#preload").attr('style', 'display:none');
+        }
+
+        function colorcode(num, index) {
+            if (num > 90) {
+                $("#" + index).attr("style", "background-color: #00a33b");
+            } else if (num > 80) {
+                $("#" + index).attr("style", "background-color: #06d636");
+            } else if (num > 70) {
+                $("#" + index).attr("style", "background-color: #4ee802");
+            } else if (num > 60) {
+                $("#" + index).attr("style", "background-color: #c3ff00");
+            } else if (num > 50) {
+                $("#" + index).attr("style", "background-color: #f6ff00");
+            } else if (num > 40) {
+                $("#" + index).attr("style", "background-color: #ffe100");
+            } else if (num > 30) {
+                $("#" + index).attr("style", "background-color: #ffbb00");
+            } else if (num > 20) {
+                $("#" + index).attr("style", "background-color: #ff8c00");
+            } else if (num > 10) {
+                $("#" + index).attr("style", "background-color: #ff5900");
+            } else {
+                $("#" + index).attr("style", "background-color: #af0101");
+            }
+        }
+
+        function send() {
+            alert("Your file is downloading. PLEASE WAIT");
+            var data = {} // This data is in JSON format which will send all the data from the webpage to the backend.
+            data['csrfmiddlewaretoken'] = $('input[name="csrfmiddlewaretoken"]').val();
+            var totalCount = "{{ rows }}";
+            var currCount = 0;
+            showLoading();
+            progressBarSim(0);
+            table.$("select").each(function () { // Getting every select tag in the table
+                var t0 = performance.now();
+                data[$(this).attr('id')] = $(this).val(); // The key will be their id and the parameter will be the current element's value
+                table.$("input").each(function () {
+                    data[$(this).attr('id')] = $(this).val(); // Getting every input[type="text"] in the select tag
+                });
+                currCount++; // For taking a counter of how many rows have been processed for progress toolbar
+                var percent = parseInt((currCount / totalCount) * 100);
+                var t1 = performance.now();
+                sim = setTimeout("progressBarSim(" + percent + ")", 0.05);
+            });
+            data['radio'] = $("input[type=radio]:checked").val()
+
+            // Source Link: https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
+            $.ajax({
+                url: 'checkOutput/',
+                type: 'POST',
+                data: data,
+                success: function (response, status, xhr) {
+                    // check for a filename
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+
+                    var type = xhr.getResponseHeader('Content-Type');
+                    var blob = new Blob([response], {type: type});
+
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        var URL = window.URL || window.webkitURL;
+                        var downloadUrl = URL.createObjectURL(blob);
+
+                        if (filename) {
+                            // use HTML5 a[download] attribute to specify filename
+                            var a = document.createElement("a");
+                            // safari doesn't support this yet
+                            if (typeof a.download === 'undefined') {
+                                window.location = downloadUrl;
+                            } else {
+                                a.href = downloadUrl;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                            }
+                        } else {
+                            window.location = downloadUrl;
+                        }
+
+                        setTimeout(function () {
+                            URL.revokeObjectURL(downloadUrl);
+                        }, 100); // cleanup
+                    }
+                    hideSmallLoader();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + " " + textStatus + " " + errorThrown + ", Please Try again or refresh the page.");
+                }
+            });
+        }
+        $(document).ready(function () {
+            table = $('#outerTable').DataTable({
+                order: [[0, "asc"]],
+                "lengthMenu": [[10, 15, 50, 100], [10, 15, 50, 100]],
+                "oLanguage": {
+                    "sSearch":"<span>Search:</span>" //search
+                }
+            });
+        $(document).ready(function () {
+            $('.dataTables_filter input[type="search"]').
+                attr('placeholder','').
+                css({'width':'150px','display':'inline-block','background':'#cccccc',});
+        });
+            hideLoading()
+            // Handle form submission event
+            $('#submit').on('click', function () {
+                // If the user has checked 'YES' in the radio button to upload the file to Google Drive
+                var ques = "Are you sure you want to allow your data to be uploaded for the Venter team to View?"
+                if ($("input[type=radio]:checked").val() != "no") {
+                    // If the user doesn't want to upload the file to the google drive, the option will be selected to 'No' as the radio button value
+                    if (confirm(ques)) {
+                        // If the user confirms to send it to the Google Drive
+                        send();
+                    } else {
+                        // If the user confirms not to send it to the Google Drive
+                        $("input[name='optradio'][value='no']").prop('checked', true);
+                    }
+                } else {
+                    // If the User initially checked 'NO'. The send() function sends the data of the webpage to the backend.
+                    // Don't get confused with the functions name. The function to send to google drive is in backend.
+                    send();
+                }
+            });
+        });
+    </script>
+    <div id="preload" align="center">
+        <div class="font">Predicting your results
+        <div class="loader"></div>
+        <h3>Please Wait...</h3>
+        </div>
+    </div>
+            <style>
+                .font{
+                    font-family: 'Montserrat', sans-serif;
+                    text-shadow:
+                    -1px -1px 0 #000,
+                    1px -1px 0 #000,
+                    -1px 1px 0 #000,
+                    1px 1px 0 #000;
+                }
+            </style>
+<div class="background">
+    <div align="center" id="tableDiv" style="display: none">
+        <div align="center" style=" width : 98%">
+            {% csrf_token %}
+            <br/>
+            <table id="outerTable" class="table table-striped table-bordered" style="background: #cccccc;">
+                <thead>
+                <th>Highest Confidence</th>
+                <th>Predicted Categories</th>
+                <th>Problem Description</th>
+                </thead>
+                <tbody>
+                {% for dict in dict_list %}
+{#                    See the structure of dict_list in manipulate_csv.py#}
+                    <tr>
+                        <td style="width: 15%">
+                            {{ dict.category.0.1 }}%
+                        </td>
+                        <form method="POST">{% csrf_token %}
+                            <td id="td{{ dict.index }}" style="width: 25%">
+                                <select id="select_category{{ dict.index }}" name="select{{ dict.index }}"
+                                        style="width: auto" multiple>
+{#                                Select element is multiple so the value of it will be multilist#}
+                                    {% for each in dict.category %}
+{#                                        Showing the categories as options in select tag#}
+                                        {% if each == dict.category.0 %}
+{#                                            Make, by default, the first element selected because it has the highest confidence #}
+                                            <option selected value="{{ each.0 }}">{{ each.0 }} ({{ each.1 }}%)</option>
+                                        {% else %}
+                                            <option value="{{ each.0 }}">{{ each.0 }} ({{ each.1 }}%)</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select><br><br>
+                                <input id="other_category{{ dict.index }}" size="50" placeholder='Type Category'>
+                                <script>
+                                    $(function () {
+                                        var availableTags = [
+                                            {% for list in category_list %}
+                                                " {{ list }}",
+                                            {% endfor %}
+                                        ]
+
+                                        function split(val) {
+                                            return val.split(/,\s*/);
+                                        }
+
+                                        function extractLast(term) {
+                                            return split(term).pop();
+                                        }
+
+                                        $("#other_category{{ dict.index }}")
+                                        // don't navigate away from the field on tab when selecting an item
+                                            .on("keydown", function (event) {
+                                                if (event.keyCode === $.ui.keyCode.TAB &&
+                                                    $(this).autocomplete("instance").menu.active) {
+                                                    event.preventDefault();
+                                                }
+                                            })
+                                            .autocomplete({
+                                                minLength: 0,
+                                                source: function (request, response) {
+                                                    // delegate back to autocomplete, but extract the last term
+                                                    response($.ui.autocomplete.filter(
+                                                        availableTags, extractLast(request.term)));
+                                                },
+                                                focus: function () {
+                                                    // prevent value inserted on focus
+                                                    return false;
+                                                },
+                                                select: function (event, ui) {
+                                                    var terms = split(this.value);
+                                                    // remove the current input
+                                                    terms.pop();
+                                                    // add the selected item
+                                                    terms.push(ui.item.value);
+                                                    // add placeholder to get the comma-and-space at the end
+                                                    terms.push("");
+                                                    this.value = terms.join(", ");
+                                                    return false;
+                                                }
+                                            });
+                                    });
+                                    // The colorcode function takes the id and the percentage confidences as the parameter of the color code.
+                                    colorcode({{ dict.category.0.1 }}, "td{{ dict.index }}");
+                                </script>
+                            </td>
+                        </form>
+                        <td style="width: 55%">{{ dict.problem_description }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+</div>
+            <style>
+            .background{
+                    background: #ffffff;
+                    border-radius: 25px;
+                }
+            </style>
+            <div class="container" style="background: #cccccc;">
+                <h3>Would you like your modified data to be viewed by the Venter team to help them improve the
+                    prediction
+                    model?</h3>
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" value="yes" checked>YES
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" value="no">NO
+                </label>
+
+            <br>
+            <table>
+                <tr style="padding: 5px">
+                    <td>
+                        <br>
+                        <button type="submit" id="submit">Submit and Download</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="progress" style=" display: none;">
+                            <progress id="progressBar" max="100" value="0"
+                                      style="width: 300px"></progress>
+                            <span id="status"></span>
+                            <h3 id="finalMessage"></h3>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            </div>
+            <br/><br/>
+        </div>
+    </div>
+{% endblock %}

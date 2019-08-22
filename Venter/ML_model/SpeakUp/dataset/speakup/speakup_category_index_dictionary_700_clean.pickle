@@ -1,0 +1,44 @@
+(dp0
+S'No Signal/Unable to use'
+p1
+I0
+sS'Wrong charges'
+p2
+I1
+sS'Refund issues'
+p3
+I2
+sS'Staff Behaviour'
+p4
+I3
+sS'Bad food'
+p5
+I4
+sS'Bad experience'
+p6
+I5
+sS'ATM related'
+p7
+I6
+sS'Internet issues'
+p8
+I11
+sS'Payment Gateway failure'
+p9
+I8
+sS'Wrong/Faulty product'
+p10
+I9
+sS'Porting issues'
+p11
+I10
+sS'Consumer extremely frustated'
+p12
+I7
+sS'Wrong charges/Over charge'
+p13
+I12
+sS'Delay in delivery'
+p14
+I13
+s.

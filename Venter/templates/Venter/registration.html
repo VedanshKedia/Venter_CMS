@@ -1,0 +1,86 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+
+<!-- LINEARICONS -->
+<link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
+<script src="../../static/assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/assets/js/main.js"></script>
+<link rel="stylesheet" href="../../static/assets/css/registration.css">
+{% if successful_submit %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#registerModal").modal('show');
+    });
+</script>
+{% endif %}
+
+<div class="wrapper-register">
+    <div class="inner-register">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>Employee Registration</h3>
+            <div class="form-holder">
+                <span class="lnr lnr-user"></span>
+                {{ user_form.username }}
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-lock"></span>
+                {{ user_form.password }}
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-envelope"></span>
+                {{ user_form.email }}
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-user"></span>
+                {{ user_form.first_name }}
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-user"></span>
+                {{ user_form.last_name }}
+            </div>
+            <input type="submit" value="Register" class="submit-register">
+        </form>
+        {% if user_form.errors %}
+        {% for field in user_form %}
+        {% for error in field.errors %}
+        <br>
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog"
+        aria-labelledby="registerModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="text-center">
+                        <img src="../../static/assets/img/tick_mark.png" alt="" class="tick_mark-register">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="footer-center">
+                        <p class="p1-register">Great!</p>
+                        <p class="p2-register">Registration successful.</p><br>
+                        <a href="{% url 'dashboard' %}">
+                            <button type="button" class="btn btn-warning rounded-4">
+                                Go To Dashboard &nbsp;&nbsp; <span class="lnr lnr-arrow-right"></span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Category List{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../../static/assets/css/category_list.css">
+
+
+<div class="outer-category">
+  <div class="container-category">
+    {% if category_list %}
+    <div class="search-form-category">
+      <form action="{% url 'category_list' %}" method="get">
+        <div class="form-group row">
+            <div class="col-lg-3">
+              <input type="submit" value="Search" class="btn btn-primary active">
+            </div>
+            <div class="col-lg-7">
+              <input type="text" name="q" class="form-control" placeholder="Search category">
+            </div>
+        </div>
+      </form>
+    </div><br>
+
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Category List</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in category_list %}
+        <tr>
+          <td>
+            {{c.category}}
+          <td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="div-pagination">
+      {% block pagination %}
+      {% if is_paginated %}
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item" disabled="">
+          <a class="page-link">Previous</a>
+        </li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active">
+          <a class="page-link"> <span>{{ i }} <span class="sr-only">(current)</span></span></a>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item" disabled="">
+          <a class="page-link">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% endif %}
+      {% endblock %}
+    </div>
+
+    {% else %}
+    <h3>No category list available. Please contact the administrator</h3>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,166 @@
+Sr. Number,Category,Subcategory-English,Subcategory-Marathi,number
+1,Sewerage Operation Control (Eastern Suburb),Drainage chokes and blockages',गटार तुंबणे आणि साचणे,0
+1,मलनिःसारण आणि प्रचालन ( पूर्व उपनगरे,Overflowing drains or manholes',गटार किंवा मॅनहोल भरुन वाहणे,1
+1,,Replacement of missing/damaged manholes covers',तुटलेले/हरवलेले मॅनहोल झाकण बसविणे,2
+1,,Sunken manhole',मॅनहोल खचणे,3
+1,,,मॅनहोलमध्ये व्यक्ती पडणे,4
+1,,Cleaning of septic tank',संडासाची टाकी साफ करणे,5
+1,,Repairs to pipe sewers/main sewers',मलवाहिनी/मुख्य मलवाहिनी दुरुस्त करणे,6
+1,,Odour (foul smell) from drains',गटारातून घाण वास येणे,7
+2,Roads and traffic,Bad patches/potholes on roads',रस्त्यावर खड्डे पडणे,8
+2,रस्ते आणि वाहतुक,Repairs/re-surfacing of roads/footpaths',"रस्ता, फुटपाथ दुरुस्त/पुर्नबांधणी करणे",9
+2,,Removal of rank regulation on roads',रस्त्यावरील खुरटी झाडे-झुडपे काढून टाकणे,10
+2,,Reinstatement of trenches',चर बुजविणे,11
+2,,Unauthorised digging of road',अनधिकृत रस्ता खोदणे,12
+2,,Providing name plates to the road',रस्त्यांना नांव फलक पुरविणे,13
+2,,Street lighting',रस्त्यावरील दिवा बत्ती,14
+2,,Signals',सिग्नलबाबत तक्रारी,15
+2,,Speed breakers',गतिरोधक बसविणे,16
+2,,Permission for tree cutting',वृक्ष तोडण्यास परवानगीबाबत,17
+2,,Trimming of branches',वृक्ष छाटणीबाबत,18
+2,,Unauthorised Stalls on Roads',रस्त्यावरील असलेली अनधिकृत दुकाने,19
+2,,Fallen Tree on road',रस्त्यावर झाड पडणे,20
+2,,Bad Patches',,21
+2,,Dangerous tree',,22
+2,,Manhole',,23
+2,,Flooding spot / Crosscut',,24
+2,,Street furniture',,25
+2,,Divider / Media',,26
+3,Colony officer,Unauthorised construction in slum',गलिच्छ वस्त्यांमधील अनधिकृत बांधकामे,27
+3,वसाहत अधिकारी,Unauthorised repairs/renovations in slum',गलिच्छ वस्त्यांमधील अनधिकृत दुरूस्ती/नूतनीकरण,28
+3,,Delay in transfer case',हस्तांतरित प्रकरणांना विलंब होणे,29
+3,,Unauthorised extension/construction',अनधिकृत वाढीव कामे/बांधकामे,30
+3,,Unauthorised commercial activity',अनधिकृत व्यवसाय करणे,31
+4,Legal,Legal,,32
+5,Health,Issue of Birth / Death Certificate',जन्म/मृत्युचा दाखला देणे,33
+5,आरोग्य,Unauthorised Food Selling / Preparation',अनधिकृत खाद्य पदार्थ बनविणे/ विकणे,34
+5,,Unauthorized Flour Mill',अनधिकृत पिठाची गिरणी,35
+6,Assessment,Incorrect assessment of property',मालमत्तेच्या करनिर्धारणाबाबत विवाद,36
+6,करनिर्धारण व संकलन,Non-availability of bills',मालमत्ता कराचे देयक प्राप्त झालेले नाही,37
+6,,"Property Annexture, Transfer of Property, No Dues certificate, etc'","मालमत्ता कराचे परिशिष्ट-अ, मालमत्तेचे हस्तांतरण तसेच थकित रक्कम शिल्लक नसल्याबाबतचे प्रमाणपत्र,इ",38
+6,,Receipt against Online payment',महाजालाद्वारे केलेल्या अधिदानाची पावती प्राप्त झाली नाही,39
+6,,Requirement to Assess the property',मालमत्तेचे करनिर्धारण करण्याबाबत,40
+6,,Searching the property details in absence of SACNo',15 अंकी मालमत्ता क्रमांक उपलब्ध नसल्यामुळे मालमत्तेचे तपशील प्राप्त होत नाही,41
+6,,Wrong billing name & address OR Wrong name of assessee',देयकावर दर्शविण्यात आलेल्या नाव / पत्त्यात तफावत असल्यास अथवा करदात्याचे नाव अचूक नाही,42
+6,,Wrong outstanding OR Payment related complaint',चुकीची थकबाकी अथवा देयक संकलनाबाबत तक्रार,43
+6,,Delay in refund',संकलनाच्या परताव्यासंबंधी विलंब,44
+6,,Contact List of Wards',विभाग कार्यालये व संबंधीत अधिका-यांचे संपर्क,45
+7,Buildings,Unauthorised construction/development',अनधिकृत बांधकामे,46
+7,इमारती,"Unauthorised alteration/renovation of building, flat, tenement, etc.'","इमारतीचे, सदनिकेचे,वसाहतींमध्ये अनधिकृतरित्या अंतर्गत बदल करणे",47
+7,,Permission for temporary monsoon shed',पावसाळी शेडसाठी तात्पुरती परवानगी,48
+7,,Regularisation of balcony enclosures',बाल्कनी संदर्भातील कामे नियमित करणे,49
+7,,Repairs permission for tolerated/censured unauthorised structures',अनधिकृत असतानाही परवानगी दिलेल्या अनधिकृत बांधकामाची दुरूस्ती,50
+7,,Granting authority u/s 499 of MMC Act for carrying out essential repairs',म. न. पा. कायदयामधील कलम 499 अन्वये दुरूस्तीबाबत परवानगी देण्याबाबतचे अधिकार,51
+7,,Heavy leakage from ceiling',छतामधुन मोठया प्रमाणात गळती,52
+7,,Change of user - Res to Commercial',वापरात बदल घरगुती ते व्यापारी,53
+8,Establishment - Superior,Establishment - Superior,,54
+10,Repairs to municipal property,"Maintenance of municipal property, schools, dispensaries, maternity home, gardens'","महापालिकेच्या मालमत्तांचे, शाळांचे, दवाखान्यांचे, प्रसुतीगृहांचे व उद्यानांचे परिरक्षण करणे",55
+10,महापालिका मालकीच्या जागेमधील दुरुस्ती,Maintenance of electric pumps in municipal colonies',पालिकेच्या वसाहितीतील विद्युत मोटारींचे परिरक्षण करणे,56
+10,,Protection of municipal play grounds/gardens',महापालिकेच्या मैदाने व उद्यानांचे संरक्षण करणे,57
+10,,Providing for monsoon to municipal property to avoid leakage',महापालिकेच्या मालमत्तेमध्ये पावसाळी पाण्याची गळती थांबविण्यासाठी शेडची व्यवस्था करणे,58
+10,,"Providing/repairing doors, windows of P.S. Blocks'","सार्वजनिक शौचालयांना दरवाजे, खिडक्या पुरविणे/दुरूस्त करणे",59
+10,,Proper electric supply to municipal properties',महापालिकेच्या मालकीच्या जागांवर व्यवस्थित विद्युत पुरवठा करणे,60
+10,,Major repairs to municipal property',महापालिकेच्या मालमत्तेची मोठी दुरूस्ती करणे,61
+10,,Minor repairs to municipal property',महापालिकेच्या मालमत्तेची किरकोळ दुरूस्ती करणे,62
+11,Licence,"Unauthorised stalls on roads, footpath or SWD drain'","रस्ता, फुटपाथ किंवा गटारांवर असलेली अनधिकृत दुकाने",63
+11,अनुज्ञापन,Unauthorised banners/advertisement/boards on roads/footpath',रस्ता/पदपथावरील अनधिकृत फलक/जाहिराती,64
+11,,Unauthorised storage of explosives',स्फोटकांचा अनधिकृत साठा,65
+11,,Trade without License',विनापरवाना व्यवसाय,66
+11,,Unauthorized workshop or Garage',अनधिकृत गॅरेज किंवा कार्यशाळा,67
+11,,Storage and sale of plastic bags',प्लास्टिकच्या पिशव्यांच्या साठा करणे व विकणे,68
+12,Pest control,Mosquito nuisance',मच्छरांचा उपद्रव,69
+12,किटक नियत्रण,Rat nuisance',उंदरांचा उपद्रव,70
+12,,Fogging',धुम्र फवारणी,71
+12,,Nuisance due to white ants',वाळवीचा उपद्रव,72
+12,,Nuisance due to cockroaches',झुरळांचा उपद्रव,73
+12,,Unauthorised/uncovered water storage tanks',अनधिकृत/ न झाकलेला पाण्याचा साठा,74
+13,School,Short supply of water',पाण्याचा अपुरा पुरवठा,75
+13,शाळा,Choke in main drain',गटाराची मुख्य वाहिनी तुबंणे,76
+13,,Drinking Water not available',पिण्याचे पाणी उपलब्ध न होणे,77
+13,,Toilet not cleaned',मुतारी स्वच्छ नसणे,78
+13,,Door/Window/staircase etc. found broken.',दरवाजे/ खिडक्या/जिने तुटलेले असणे,79
+13,,No electricity supply',विजेचा पुरवठा नसणे,80
+13,,"Lamp,tubelight etc. to be replaced'","बल्ब, टयुब लाईट इ. बदली करणे",81
+13,,Furniture found broken in the classes.',वर्गातील लाकडी सामान तुटलेले आढळणे,82
+13,,'Found encroachment in the school premise',शाळेच्या आवारात अतिक्रमण,83
+13,,'No Teacher',शिक्षक नसणे,84
+13,,'No warning/alarm system',पूर्व सूचना देणारी पध्दत नसणे,85
+13,,'Overflow of waste material',कचरा तुडूंब भरून वाहणे,86
+13,,'Pan/Gutka hawker near school premises',शाळेच्या आवाराजवळ पान/गुटखा फेरीवाले आढळणे,87
+13,,'Bad Quality of material given to student',विद्यार्थ्यांना वाईट दर्जाचे सामान पुरविणे,88
+14,Retired Employees Complaints,Pension / Family Pension Not Started',निवृत्तीवेतन / कुटुंबनिवृत्तीवेतन सुरु करण्यात आलेले नाही,89
+14,सेवानिवृत्त कर्मचा-यांच्या तक्रारी,Current Month Pension / FP Not Received',चालू महिन्याचे निवृतीवेतन / कुटुंब निवृत्तीवेतन मिळालेले नाही,90
+14,,Arrears Of Pension / FP Not Received',निवृत्तीवेतनाची थकबाकी / कुटुंब निवृत्तीवेतनाची थकबाकी मिळालेली नाही,91
+14,,Gratuity Not Received',उपदान मिळालेले नाही,92
+14,,Commutation Of Pension Not Received',निवृत्तीवेतनाचे अंशराशीकरण मिळालेले नाही,93
+14,,Arrears Of Pension Benefits Due To Rev.',वेतन सुधारणेमुळे निवृत्तीवेतनादी फायदे,94
+14,,,थकबाकी येणे बाकी,95
+14,,NCPF Not Received',अन-अंशदायी भविष्य निर्वाह निधी मिळालेला नाही,96
+14,,Leave Encashment Not Received',रजा रोखीची रक्कम मिळालेली नाही,97
+15,Storm water drain,Cleaning of water entrance',पर्जन्य जलमुखाची स्वच्छता करणे,98
+15,पर्जन्य जलवाहिनी,Cleaning of open SWD',खुल्या पर्जन्य जलवाहिन्या साफ करणे,99
+15,,Flooding during monsoon',पावसाळयात पाणी तुंबणे,100
+15,,Pre-monsoon works halted',पावसाळापूर्व काम स्थगित होणे,101
+15,,"""Providing damaged/missing gratings manhole covers over SWD's""",पर्जन्य जलवाहिन्यांवरील/ गटारांवरील तुटलेली/गहाळ झालेली झाकणे पुरविणे,102
+15,,"Removal of silt from nalla/across culverts, etc.'",नाल्यातील गाळ काढणे,103
+15,,Repair to damaged open SWD',खुल्या पर्जन्य जलवाहिन्या दुरुस्त करणे,104
+15,,Unauthorised Stalls and Huts on nallas',नाल्यावर असलेली अनधिकृत दुकाने आणि झोपडया,105
+16,Drainage,Raising of manhole (except in monsoon)',मॅनहोलची उंची वर उचलणे,106
+17,Solid Waste Management,Garbage not lifted from co-authorised collection point',एकत्रित केलेला कचरा नियोजित जागेवरुन न उचलणे,107
+17,घन कचरा व्यवस्थापन,Garbage not lifted from house gully',घरगल्ल्यांमधून कचरा न उचलणे,108
+17,,Collection point not attended properly',जमा केलेला कचरा व्यवस्थित न उचलणे,109
+17,,Garbage not lifted from municipal market',म.न.पा. मंडईतून कचरा न उचलणे,110
+17,,Garbage lorry not reported for service',कचरागाडी सेवेसाठी न येणे,111
+17,,Garbage lorry not covered',कचरागाडी झाकलेली नाही,112
+17,,Providing/removing/replacing dustbins',कच-याचा डबा पुरविणे/काढणे/ बदलणे,113
+17,,Removal of dead animals',मृत जनावरे उचलणे,114
+17,,Sweeping of road',रस्ता झाडणे,115
+17,,Cleaning of P.S.C. block/channels',सार्वजनिक शौचालयांची स्वच्छता,116
+17,,No attendance at public toilets',सार्वजनिक स्वच्छता गृह दुर्लक्षित असणे,117
+17,,Removal of Debris',मातीचा ढिगारा उचलणे,118
+17,,Silt to be lifted on road',रस्त्यावरील गाळ उचलणे,119
+17,,Non attendant of Nuisance Detector',उपद्रव शोधक नसणे,120
+17,,Lifting of Tree Cutting',कापलेल्या झाडांच्या फांदया उचलणे,121
+18,Factories,Nuisance due to masala mills',मसाला गिरणीचा उपद्रव,122
+18,कारखाने,Air pollution',हवा प्रदूषण,123
+18,,Pollution due to chemical effluents',रासायनिक घटकांमुळे प्रदूषण,124
+18,,"Unauthorised factory, workshop or garage'",अनधिकृत कारखाने/कार्यशाळा/गॅरेज,125
+19,Estate,Pertaining to rent',भाडयाशी संबधित तक्रारी,126
+19,मालमत्ता,Transfer of tenancy',भाडोञी जागेचे हस्तांतरण,127
+19,,Unauthorised construction on the Plot/Room',प्लॉटवरील अनधिकृत बांधकाम,128
+19,,Unauthorised use of Room',खेालीचा अनधिकृत वापर,129
+19,,Non-maintenance of Premises',जागेचे परिरक्षण न करणे,130
+19,,Pending Transfer cases.',प्रलंबित हस्तांतरित प्रकरणे,131
+19,,Unauthorised addition/alteration in the premises',अनधिकृत वाढविणे/ बदल,132
+19,,Unauthorised materials/furniture found',अनधिकृत सामान/ फर्निचर साठवुन ठेवणे,133
+19,,Extension in the premises without permission',परवानगीशिवाय आवाराच्या जागेत विस्तार करणे,134
+19,,Slab fallen down.',छज्जा (स्लॅब) पडणे,135
+19,,Unauthorised shed on building in premises',इमारतीच्या आवारात अनधिकृत शेड बांधणे,136
+20,Shops & Establishment,Open beyond permissible hours',दुकाने परवानगी वेळे व्यतिरिक्त चालू ठेवणे,137
+20,दुकाने आणि आस्थापना,Running without licence',दुकाने विना परवाना चालू ठेवणे,138
+20,,Non observance of Holidays',सुट्टीचे पालन न करणे,139
+20,,Not providing minimum wages',किमान वेतन न देणे,140
+20,,Shop open on weekly holiday',आठवडा रजेच्या दिवशी दुकाने उघडी ठेवणे,141
+20,,found staff working more than on muster',हजेरी पटावर जास्त कर्मचारी आढळणे,142
+20,,Employing children (below 14) in the org',14 वर्षाखालील मुलांना कामावर ठेवणे,143
+20,,Online Renewal Application',,144
+21,Encroachment,Municipal Land - Road / Footpath / Strom Water Drain',"महापालिकेच्या जमीन-रस्ता, पदपथ, पर्जन्य जल वाहिनीवरील अतिक्रमणे",145
+21,अतिक्रमण,Municipal Plot',महापालिकेचा भूखंड,146
+21,,Municipal Colony / Slum',महापालिकेच्या वसाहत/गलिच्छ वस्त्यांमधील अतिक्रमणे,147
+21,,Hawkers',फेरीवाले,148
+21,,Private Land / Building / Society / Factories',खाजगी जमीन/इमारत/सोसायटी/कारखाने,149
+22,Water supply,Leaks in water lines',जलवाहिनीमध्ये गळती,150
+22,पाणी पुरवठा,Burst water main',जलवाहिनी फुटणे,151
+22,,Contaminated water supply',दुषित पाण्याचा पुरवठा,152
+22,,Shortage of water supply',पाण्याचा तुटवडा,153
+22,,Unauthorised tapping of water connections',पाण्याची अनधिकृत नळ जोडणी,154
+22,,Unauthorised use of water-Change of User',पाण्याचा अनधिकृत वापर,155
+22,,Use of booster pump',बुस्टर पंपाचा वापर,156
+22,,Removal of water meters',पाण्याचे मीटर काढून टाकणे,157
+22,,Providing water by tankers',टँकरने पाणी पुरवठा करणे,158
+22,,Water supply during non-supply hours',पाणी पुरवठयावेळे व्यतिरिक्त पाणी पुरवठा करणे,159
+22,,Leakage near meter',जलमापका जवळ होणारी पाणी गळती,160
+22,,Overflow of overhead tank / suction tank',शोषण टाकी /गच्ची वरील टाकी भरून वाहते,161
+22,,Non receipt of water bills',जल देयके न मिळण्या बाबत,162
+23,Establishment - Labour,Establishment - Labour,,163
+25,Office Superintendent,Office Superintendent,,164

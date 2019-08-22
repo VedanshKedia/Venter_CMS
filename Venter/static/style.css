@@ -1,0 +1,43 @@
+/*
+Styling for index.html
+*/
+
+.imagelogo-index {
+    width: 80px;
+    height: 70px;
+    float: left;
+}
+
+.wrapper {
+    background-color:white;
+}
+
+.content-index{
+    display: table-row;
+    width: 100vw;
+}
+.navbar .navbar-custom{
+    background-color: black;
+}
+
+.app-label {
+    font-size: 40px;
+    color: whitesmoke;
+    text-align: center;
+  }
+
+/*
+Styling for base.html
+*/
+.imagelogo-base {
+    width: 140px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50%;
+}
+.content-base{
+    height: 100vh;
+    width:83vw;
+    margin-left: 6%;
+}

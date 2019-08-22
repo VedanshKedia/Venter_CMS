@@ -1,0 +1,148 @@
+/*
+Styling for update_profile.html
+*/
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
+}
+
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
+}
+
+
+.modal-body{
+    height: 180px;
+    background-color: #32bc65;
+  }   
+
+  .user_logo-update{
+    width:150px;
+    height:140px;
+  }
+
+  .modal-footer{
+    height: 150px;
+    background-color: white;
+  }
+
+  .nav li.user-profile-item .nav-link{
+    color: #FFFFFF;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.23);
+  }
+
+  .footer-center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .p1-update{
+    color: grey;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+  }
+
+  .outer-profile{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+  }
+
+  .wrap-profile {
+    width: 700px; 
+    background: transparent;
+    padding: 50px 0px 160px 0px;
+  }
+
+  .profile-form{
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  .profile-avatar{
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 8px solid black;
+  }
+
+  .wrap-field {
+    width: 700px;
+    background-color: #fff;
+    border-radius: 31px;
+    margin-bottom: 10px;
+    height: 60px;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+    display: flex;
+  }
+  
+  .wrap-field-profile-picture{
+    width: 700px;
+    background-color: #fff;
+    border-radius: 31px;
+    margin-bottom: 10px;
+    height: 80px;
+    position: relative;
+    z-index: 1;
+    align-items: center;
+  }
+
+  .org-label{
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto;
+  }
+
+  .username-label, .phone-number-label, .profile-picture-label{
+    font-family: Montserrat-Bold;
+    font-size: 17px;
+    margin-left: 10%;
+  }
+
+  .update_profile_btn {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 150px;
+    height: 62px;
+    background-color: #3c97ec;
+    border-radius: 31px;
+  
+    width: calc(100% + 20px);
+    font-family: Poppins-Bold;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+  
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    position: relative;
+    z-index: 1;
+  }
+
+  .update_profile_btn:hover {
+    background-color: #403866;
+    width: calc(100% + 20px);
+  }
+  
+  
+  

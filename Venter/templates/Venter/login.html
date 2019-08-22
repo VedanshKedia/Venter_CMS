@@ -1,0 +1,66 @@
+{% extends 'Venter/index.html' %}
+{% block title %}Login {% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="../../static/assets/css/login.css">
+
+<script>
+    function myFunction() {
+        var x = document.getElementById("id_password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+
+<div class="out">
+    <div class="main_container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="container">
+                <div class="image_container">
+                    <img src="../../static/assets/img/login_logo.png" class="login-image">
+                </div>
+                <br><br>
+                <div class="field_container">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-user icon" aria-hidden="true"></i>
+                        </div>    
+                        <input type="text" placeholder="Enter Username" name="username" id="id_username" value="" required>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-key icon" aria-hidden="true"></i>
+                        </div>    
+                        <input type="password" placeholder="Enter Password" name="password" id="id_password" required>
+                    </div>
+                    <!-- <div class="row" style="display:inline-block;">
+                            <input type="checkbox" name="remember" onclick="myFunction()">
+                            <label>Show Password</label> -->
+                        <!-- <div class="col-sm-1">
+                            <input type="checkbox" name="remember" onclick="myFunction()">
+                        </div>
+                        <div class="col-sm-4">   
+                            <label>Show Password</label>
+                        </div>  -->
+                    <!-- </div> -->
+                </div>
+                <br>
+                <div class="bottom_container">
+                    <input type="submit" value="Login" class="submit-login">
+                </div>
+            </div>
+        </form>
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <p>Please enter a correct username and password.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

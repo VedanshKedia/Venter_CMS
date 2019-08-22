@@ -1,0 +1,161 @@
+/*
+Styling for prediction_result.html
+*/
+
+.outer-pr{
+    background-color: whitesmoke;
+    height: 100vh;
+    justify-content: center;
+}
+
+.content-domain{
+    margin-top: 20px;
+    width: 80vw;
+    height: 10vh;
+}
+
+.content-navigator{
+    width: 80vw;   
+    height: 5vh;
+}
+
+.content-cardview{
+    width: 80vw;
+    height: 75vh;
+    background-color: white;
+}
+
+.content-graph{
+    width: 1150px;
+    height: 75vh;
+    background-color: white;
+}
+
+.navigator_tab{
+    box-sizing:border-box;
+}
+
+.domain_tab{
+    background-color: white;
+}
+
+.chart-fa, .list-fa{
+    color: darkblue;
+}
+
+.nav-tabs .nav-item{
+    list-style-position:inside;
+}
+
+.content-domain > .nav-tabs > li > a{
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.content-domain > .nav-tabs > li > a:hover{
+    color: blue;
+    border: 1px solid black;
+}
+
+.content-domain ul > li.active > a{
+    background-color: blue;
+    color:white;
+}
+
+/* .content-domain ul > .nav-item.active {
+    background-color: blue;
+    color:white;
+} */
+
+/* .content-domain ul > li.active > a{
+    color: white;
+} */
+
+/* .content-domain .nav-tabs .nav-link.active{
+    background-color: blue;
+    color:white;
+} */
+
+.content-navigator > .nav-pills > li > a,   
+.content-navigator > .nav-pills > li > a:focus{
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.content-navigator > .nav-pills > li > a:hover{
+    color: blue;
+    border: 1px solid black;
+}
+
+/* .content-navigator .nav-pills .nav-link.active{
+    background-color: blue;
+    color:white;
+} */
+
+.content-navigator ul > li.active > a{
+    background-color: blue;
+    color:white;
+}
+
+
+
+@media (max-width: 1435px) and (max-height:846px) {
+    .content-domain{
+        width: 1148px;
+        height: 84.59px;
+    }
+
+    .content-navigator{
+        width: 1148px;   
+        height: 42px;
+    }
+
+    .outer-pr{
+        background-color: whitesmoke;
+        justify-content: center;
+        width: 1225px;
+        height: 700px;
+    }
+  }
+  
+.card-container .card{
+    height: 400px;
+    width: 900px;
+    border: 2px solid black;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.card-container{
+    width: 80vw;
+    height: 75vh;
+    overflow-x: scroll;
+}
+
+.graph-container{
+    width: 1150px;
+    height: 75vh;
+    overflow-x: scroll;
+    background-color: white;
+}
+
+.card .card-header .label-category{
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+}
+
+.card-container > .card > .card-body{
+    height: 320px;
+    width: 900px;
+}
+
+.list-group{
+    max-height: 260px;
+    margin-bottom: 10px;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling: touch;
+}

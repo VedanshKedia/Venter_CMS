@@ -1,0 +1,212 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Prediction Results{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="../../static/assets/css/prediction_result.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>
+  $(document).ready(function (){
+    // if($('.nav-tabs li:eq(0)').hasClass('active')){
+    //   var link = $('.nav-tabs li.active a').prop('href');
+    //   console.log(link);
+    //   if($('.nav-pills li:eq(0)').hasClass('active')){
+    //     $('.nav-pills li:eq(0) a').tab('show');
+    //     console.log("graph pill is active")
+    //   }
+    // }
+
+    if($('.nav-pills li:eq(0)').hasClass('active')){
+        $('.nav-pills li:eq(0) a').tab('show');
+        // console.log("graph pill is active")
+      }
+      
+
+    // $('.nav-tabs > li > a').click(function(event){
+    //   // event.preventDefault();
+    //   var actived_nav = $('.nav-tabs > li.active');
+    //   actived_nav.removeClass('active');
+            
+    //   $(this).parents('li').addClass('active');
+    // }); 
+    
+    $(".nav-tabs .nav-item .nav-link").on("click", function(){
+      $(".nav-tabs").find(".nav-item .nav-link active").removeClass("active");
+      $(this).addClass("active");
+    });
+
+  });
+</script>
+
+
+<script>
+    function rndColor() {
+      var r = ('0' + Math.floor(Math.random() * 256).toString(16)).substr(-2), // red
+          g = ('0' + Math.floor(Math.random() * 256).toString(16)).substr(-2), // green
+          b = ('0' + Math.floor(Math.random() * 256).toString(16)).substr(-2); // blue
+      return '#' + r + g + b;
+  }
+    
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+      var stats = '{{ domain_stats|escapejs }}';
+      
+      stats = jQuery.parseJSON(stats);
+      noOfNovelCats = stats[stats.length-1].length - 2
+      
+      colorseries = {}
+      for(i=0; i<noOfNovelCats; i++) {
+        colorseries[i] = rndColor()
+      }
+
+      var data = new google.visualization.arrayToDataTable(stats);
+
+     var options = {
+        width: '1100',
+        height: '600',
+        isStacked: true,
+        legend: {
+          position: 'none' 
+        },
+        hAxis: {
+          title: 'Category',
+          titleTextStyle: {
+            'fontSize': 23, 
+            color: 'black', 
+            bold: true, 
+            italic: false,
+          },
+          'textStyle': {
+            'fontSize': 15, 
+            color: 'black',
+          },
+          gridlines: 3,
+          slantedText:true,
+          slantedTextAngle:45,
+        },
+        vAxis: {
+          title: 'Number of responses',
+          titleTextStyle: {
+            'fontSize': 23, 
+            color: 'black', 
+            bold: true, 
+            italic: false,
+          },
+          'textStyle': {
+            'fontSize': 15, 
+            color: 'black',
+            bold:true,
+          },
+        },
+        bar: {
+          groupWidth: "90%" 
+        },
+        series : colorseries,
+        is3D:true
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    };
+</script> 
+
+
+<div class="outer-pr row">
+  <div class="content-domain">
+    <ul class="nav nav-tabs nav-fill" id="domain_tab" role="tablist">
+      {% for domain in domain_list %}
+        <!-- {% if domain == domain_list.0 %}
+        <li class="nav-item active">
+          <a href="{% url 'domain_contents' %}?domain={{domain}}" class="nav-link" data-target="#graph" role="tab"
+            aria-selected="true">
+            {{domain}}
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="{% url 'domain_contents' %}?domain={{domain}}" class="nav-link" data-target="#graph" role="tab"
+            aria-selected="true">
+            {{domain}}
+          </a>
+        </li>
+        {% endif %} -->
+      
+        <li class="nav-item">
+          <a href="{% url 'domain_contents' %}?domain={{domain}}" class="nav-link" data-target="#graph" role="tab"
+            aria-selected="true">
+            {{domain}}
+          </a>
+       </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="content-navigator">
+    <ul class="nav nav-pills justify-content-center" id="navigator_tab" role="tablist">
+        <li class="nav-item active" id="pill-graph">
+            <a class="nav-link" data-toggle="pill" href="#graph">
+              Graph &nbsp; <i class="fa fa-area-chart chart-fa" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="nav-item" id="pill-cardview">
+            <a class="nav-link" data-toggle="pill" href="#cardview">
+              CardView &nbsp; <i class="fa fa-list-alt list-fa" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+  </div>
+
+  <div class="tab-content">
+    <div id="cardview" class="tab-pane fade content-cardview">
+      <div class="card-container">
+        {% for category,response in domain_data.items %}
+        <div class="card">
+          <div class="card-header">
+            <label class="label-category">{{category}}</label>
+            <hr>
+          </div>
+          <div class="card-body">
+            <div class="card-text">
+              {% if not response %}
+                <li class="list-group-item">No response</li>
+              {% else %}
+                <ul class="list-group list-group-flush">
+                  {% if category == 'Novel' %}
+                    {% for keys, item in response.items %}
+                      {% for r in item %}
+                      <li></li>
+                        <ul>
+                          <li>
+                            {{r}}
+                          </li>
+                        </ul>
+                      </li>
+                      {% endfor %}
+                      <!-- <hr style="border: 3px solid black;"> -->
+                    {% endfor %}
+                  {% else %}
+                    {% for r in response %}
+                      <li class="list-group-item">{{r}}</li>
+                    {% endfor %}
+                  {% endif %}  
+                  
+                </ul>
+              {% endif %}
+            </div>  
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div id="graph" class="tab-pane fade content-graph">
+      <div id="chart_div" class="graph-container"></div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

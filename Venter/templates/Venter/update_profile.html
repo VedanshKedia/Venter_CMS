@@ -1,0 +1,91 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Update Profile{% endblock %}
+{% block content %}
+
+
+<!-- LINEARICONS -->
+<link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
+<script src="../../static/assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/assets/js/main.js"></script>
+<link rel="stylesheet" href="../../static/assets/css/update_profile.css">
+
+{% if successful_submit %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#updateProfileModal").modal('show');
+    });
+</script>
+{% endif %} 
+
+<div class="outer-profile">
+    <div class="wrap-profile">
+        <form method="post" name="form" enctype="multipart/form-data" class="profile-form">
+            {% csrf_token %}
+            <img src="../../static/assets/img/default-avatar.png" alt="Avatar" class="profile-avatar"><br><br>
+            <div class="wrap-field">
+				<label class="org-label">Organisation Name: {{ request.user.profile.organisation_name }}</label>
+			</div>
+
+            <div class="wrap-field">
+                <label class="username-label">Username: </label> &nbsp; {{ request.user.username}}
+            </div>
+
+            <div class="wrap-field">
+                    <label class="phone-number-label">Phone Number: </label> &nbsp; {{ profile_form.phone_number}}
+            </div>
+
+            <div class="wrap-field-profile-picture">
+                <label class="profile-picture-label">Profile Picture: </label> &nbsp; {{ profile_form.profile_picture }}
+            </div>
+
+            <!-- {% for field in profile_form %}
+                <div class="wrap-field">
+                    <label class="field-label">{{ field.label }}: </label>&nbsp;{{ field }}
+                    <br>
+                </div>
+            {% endfor %} -->
+
+            <input type="submit" value="Update" class="update_profile_btn">
+        </form>
+    </div>   
+</div>    
+
+{% if profile_form.errors %}
+    {% for field in profile_form %}
+        {% for error in field.errors %}
+        <br>
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+<!--Modal -->
+<div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateProfileModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="text-center">
+                    <img src="../../static/assets/img/user_logo.png" alt="" class="user_logo-update">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer-center">
+                    <p class="p1-update">Profile updated!</p>
+                        <a href="{% url 'update_profile' request.user.pk %}">
+                            <button type="button" class="btn btn-info rounded-4">
+                                Edit profile &nbsp;&nbsp; <span class="lnr lnr-pencil"></span>
+                            </button>
+                        </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../static/assets/css/dashboard.css">
+
+
+
+  {% if file_list %}
+  <div class="inner-db-file">
+    <div class="row">
+      <div class="col-sm-9">
+        <form action="{% url 'dashboard' %}" method="get">
+            <div class="form-group row">
+                <div class="col-sm-1">
+                  <input type="submit" value="Search" class="btn btn-primary active">
+                </div>&nbsp;&nbsp;
+                <div class="col-sm-9">
+                    <input type="text" name="q" class="form-control" placeholder="Search file">
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="col-sm-1">
+        <a href="{% url 'upload_file' %}">
+          <button type="button" class="btn btn-primary upload-button">
+            Upload File &nbsp;<i class="fa fa-plus plus-fa" aria-hidden="true"></i>
+          </button>
+        </a>
+      </div>
+    </div><br>
+
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Input File</th>
+          <th>Uploaded By</th>
+          <th>Upload Date</th>
+          <th>Upload Time</th>
+          <th>Prediction results</th>
+          <th>Download Results</th>
+          {% if user.is_staff %}
+          <th>Delete</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in file_list %}
+        <tr>
+          <td>{{ file.filename }}</td>
+          <td>{{ file.uploaded_by  }}</td>
+          <td>{{ file.uploaded_date.date }}</td>
+          <td>{{ file.uploaded_date.astimezone.time }}</td>
+          <td>
+            <a href="{% url 'predict_result' file.pk %}">
+              <button class="btn btn-success predict-button">Categorize</button>
+            </a>
+          </td>
+          <td>
+            <a href="{{file.output_file_xlsx}}", download="results.xlsx">
+              <i class="fa fa-download download-fa" aria-hidden="true"></i>
+            </a>
+          </td>
+            {% if user.is_staff == True %}
+            <td>
+              <a href="{% url 'delete_file' file.pk %}">
+                  <i class="fa fa-trash-o trash-fa" aria-hidden="true"></i>
+              </a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="div-pagination">
+        {% block pagination %}
+        {% if is_paginated %}
+        <ul class="pagination justify-content-center">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item" disabled="">
+            <a class="page-link">Previous</a>
+          </li>
+          {% endif %}
+
+          {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+          <li class="page-item active">
+            <a class="page-link"> <span>{{ i }} <span class="sr-only">(current)</span></span></a>
+          </li>
+          {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ i }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ i }}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="{{ request.path }}?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+          </li>
+          {% else %}
+          <li class="page-item" disabled="">
+            <a class="page-link">Next</a>
+          </li>
+          {% endif %}
+        </ul>
+        {% endif %}
+        {% endblock %}
+      </div>
+  </div>
+  {% else %}
+  <div class="inner-db-no-file">
+    <div class="uploadtext">Upload File</div>
+    <div class="file-upload">
+      <a href="{% url 'upload_file' %}">
+        <i class="fa fa-arrow-up"></i>
+      </a>
+    </div>
+  </div>
+  {% endif %}
+
+
+
+
+{% endblock %}

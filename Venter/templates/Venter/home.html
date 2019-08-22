@@ -1,0 +1,19 @@
+{% extends 'Venter/index.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<h1>Home page</h1><br>
+<div class="content">
+    Venter is an automated complaint management system being developed at IIT Bombay, in collaboration with Microsoft
+    Research.
+    The goal of this project is to automate the processes involved in the categorisation of complaints registered on the
+    website of ICMC (I Change My City) which are further referred to MCGM (Municipal Corporation of Greater Mumbai)
+    website.
+    Currently, the complaints on MCGM are posted by users, but the categorization of those complaints is done manually,
+    which not only consumes time, but increases chances of errors due to human intervention.
+    <br><br>
+    Venter is based on a machine learning model, which is trained to classify the results based upon the traits
+    discovered in the csv that's been uploaded by the user.
+</div>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+.vscode
+.idea/*
+db.sqlite3
+__pycache__/
+env/
+media/**
+htmlcov/
+Venter/ML_model/Civis/GoogleNews-vectors-negative300.bin
+stats.txt

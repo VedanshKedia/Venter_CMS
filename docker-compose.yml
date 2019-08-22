@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  venter-local-executable:
+    image: venter-local-executable
+    build: .
+    ports:
+      - 8000:8000
