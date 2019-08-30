@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 import tensorflow as tf
 import numpy as np
 from nltk.tokenize import TweetTokenizer
 import gensim
 import os
 from django.conf import settings
+=======
+import os
+
+import gensim
+import numpy as np
+import tensorflow as tf
+from django.conf import settings
+from nltk.tokenize import TweetTokenizer
+>>>>>>> 1cc454c1c395cf26bab187b2a52e9f925fb70bb2
 
 
 class ImportGraph():
@@ -83,6 +93,7 @@ class ImportGraph():
                 complaint_text_tokens.append(token.strip())
         return complaint_text_tokens
 
+<<<<<<< HEAD
     def process_query(self, line):
         tokens = self.get_clean_complaint_text_words(line)
         vec = np.zeros(shape=300)
@@ -92,3 +103,16 @@ class ImportGraph():
             vec /= len(tokens)
         data = np.asarray(vec)
         return [data]
+=======
+    def process_query(self, data):
+        processes_data = []
+        for line in data:
+            tokens = self.get_clean_complaint_text_words(line)
+            vec = np.zeros(shape=300)
+            for token in tokens:
+                vec += self.vecs.word_vec(token)
+                if len(tokens) != 0:
+                    vec /= len(tokens)
+                processes_data.append(np.asarray(vec))
+            return np.array(processes_data)
+>>>>>>> 1cc454c1c395cf26bab187b2a52e9f925fb70bb2

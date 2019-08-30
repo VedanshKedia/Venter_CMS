@@ -1,9 +1,13 @@
-.vscode
+.vscode/
 .idea/*
-db.sqlite3
 __pycache__/
-env/
+db.sqlite3
 media/**
 htmlcov/
-Venter/ML_model/Civis/GoogleNews-vectors-negative300.bin
 stats.txt
+venter_venv/
+staticfiles/*
+Venter/ML_model/sentence_model/MAX.bin
+Venter/ML_model/ICMC/dataset/dataset_mcgm_clean/word_vectors_mcgm.pickle
+Venter/ML_model/ICMC/dataset/dataset_mcgm_clean/word_vectors_mcgm_.picke
+

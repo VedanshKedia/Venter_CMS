@@ -15,7 +15,6 @@ Styling for registration.html
   body {
     font-family: "Muli-Regular";
     font-size: 14px;
-    margin: 0;
     color: #999; }
   
   input, textarea, select, .submit-register {
@@ -38,15 +37,16 @@ Styling for registration.html
     outline: none; }
   
   .wrapper-register {
-    height: 100vh;
+    height: 100%;
     display: flex;
-    align-items: center;
+    text-align: center;
     justify-content: center;
+    overflow: scroll;
     background: #accffe; }
   
   .inner-register {
-    position: relative;
-    width: 435px; }
+    width: 435px; 
+  }
   
   form {
     width: 100%;
@@ -138,6 +138,9 @@ Styling for registration.html
     .submit-register span {
       position: relative;
       z-index: 2; }
+    .submit-register:hover{
+      background: #1a8cff;
+    }  
     .submit-register:before, .submit-register:after {
       content: '';
       position: absolute;
@@ -225,4 +228,16 @@ Styling for registration.html
     font-size: 20px;
   }
 
-  /*# sourceMappingURL=style.css.map */
+  .title {
+    font-family: Copperplate; 
+    font-size: 30px;
+  }
+
+  div.sidebar-wrapper li.wordcloud-item{
+    display: none;
+}
+
+h1.error-label{
+  text-align: center;
+  font-weight: bold;
+}

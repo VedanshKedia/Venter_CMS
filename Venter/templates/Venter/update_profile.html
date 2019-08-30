@@ -2,7 +2,6 @@
 {% block title %}Update Profile{% endblock %}
 {% block content %}
 
-
 <!-- LINEARICONS -->
 <link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
 <script src="../../static/assets/js/jquery-3.3.1.min.js"></script>
@@ -15,51 +14,57 @@
         $("#updateProfileModal").modal('show');
     });
 </script>
-{% endif %} 
+{% endif %}   
 
 <div class="outer-profile">
     <div class="wrap-profile">
         <form method="post" name="form" enctype="multipart/form-data" class="profile-form">
             {% csrf_token %}
-            <img src="../../static/assets/img/default-avatar.png" alt="Avatar" class="profile-avatar"><br><br>
-            <div class="wrap-field">
-				<label class="org-label">Organisation Name: {{ request.user.profile.organisation_name }}</label>
-			</div>
-
-            <div class="wrap-field">
-                <label class="username-label">Username: </label> &nbsp; {{ request.user.username}}
+            <div class="profile_picture_container">
+                <img src="/media/{{ request.user.profile.profile_picture.url }}" alt="Avatar" class="profile-avatar">
             </div>
-
+            <br>
             <div class="wrap-field">
-                    <label class="phone-number-label">Phone Number: </label> &nbsp; {{ profile_form.phone_number}}
+                <label class="org-label">{{ request.user.username}}</label>
             </div>
-
-            <div class="wrap-field-profile-picture">
-                <label class="profile-picture-label">Profile Picture: </label> &nbsp; {{ profile_form.profile_picture }}
-            </div>
-
-            <!-- {% for field in profile_form %}
-                <div class="wrap-field">
-                    <label class="field-label">{{ field.label }}: </label>&nbsp;{{ field }}
-                    <br>
+            <div class="wrap-field">
+                <div class="center">
+                    <div class="label-data">Organisation Name:</div> &nbsp;
+                    <div class="field">{{ request.user.profile.organisation_name }}</div>
                 </div>
-            {% endfor %} -->
+            </div>
 
-            <input type="submit" value="Update" class="update_profile_btn">
+            <div class="wrap-field">
+                <div class="center">
+                    <div class="label-data">Phone Number:</div> &nbsp;
+                    <div class="field">{{ profile_form.phone_number}}</div>
+                </div> 
+            </div>
+
+            <div class="wrap-field">
+                <div class="center">
+                    <div class="label-data">Profile Picture:</div> &nbsp;
+                    <div class="field">{{ profile_form.profile_picture}}</div>
+                </div> 
+            </div>
+
+            <input type="submit" value="Update" class="submit-update-profile">
         </form>
+        {% if profile_form.errors %}
+            {% for field in profile_form %}
+                {% for error in field.errors %}
+                <script>
+                    console.log('{{error|escape}}');
+                </script>
+                <br>
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
     </div>   
 </div>    
-
-{% if profile_form.errors %}
-    {% for field in profile_form %}
-        {% for error in field.errors %}
-        <br>
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-{% endif %}
 
 <!--Modal -->
 <div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateProfileModalTitle"

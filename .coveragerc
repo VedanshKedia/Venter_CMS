@@ -1,0 +1,12 @@
+[run]
+omit =
+    ../*migrations*
+    manage.py
+    venv\**
+    ../*templatetags*
+
+[report]
+# Lines to exclude from consideration
+exclude_lines =
+    pragma: no cover
+    if settings.DEBUG

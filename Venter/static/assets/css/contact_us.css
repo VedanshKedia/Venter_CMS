@@ -52,7 +52,7 @@ button:hover {
 .txt2 {
   font-family: Poppins-Regular;
   font-size: 15px;
-  color: #999999;
+  color: #f0ebeb;
 }
 
 .txt3 {
@@ -109,25 +109,87 @@ button:hover {
 
   .contact100-more {
     width: 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    z-index: 1;
-    padding: 30px 15px 0px 15px;
-    background-image: url('../img/contact_us_bg.jpg');
   }
   
-  .contact100-more::before {
+  .contact-support::before {
     content: "";
-    display: block;
     position: absolute;
-    z-index: -1;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.5);
+  }
+
+  .contact-support{
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    padding: 30px 15px 0px 15px;
+    background-image: url('../img/contact_us_bg.jpg');
+    background-size: cover;
+    height: 700px;
+  }
+
+  .contact-social-media{
+    background-color: black;
+    height: 500px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../img/social_media_bg.jpg');
+    background-size: cover;
+  }
+
+  .fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 70px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+    border-radius: 50%;
+  }
+  
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+
+  .fa-linkedin {
+    background: #007bb5;
+    color: white;
+  }
+  
+  .fa-youtube {
+    background: #bb0000;
+    color: white;
+  }
+
+  .fa-facebook:hover {
+    background: #91a6d4;
+    color: white;
+  }
+
+  .fa-linkedin:hover {
+    background: #66cfff;
+    color: white;
+  }
+  
+  .fa-youtube:hover {
+    background:  #ff4d4d;
+    color: white;
+  }
+
+
+  .media-icons-row{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-top: 20%;
+  }
+
+  .required-field-mark{
+    color:red;
   }
 
 
@@ -190,6 +252,17 @@ button:hover {
     padding-bottom: 33px;
   }
 
+  .contact-media-title{
+      width: 100%;
+      display: block;
+      font-family: Poppins-Regular;
+      font-size: 30px;
+      color: #fffdfd;
+      line-height: 1.2;
+      text-align: center;
+      padding-bottom: 33px; 
+      padding-top: 5%;
+  }
   
   .container-contact100-form-btn {
     width: 100%;
@@ -257,7 +330,7 @@ button:hover {
 }
 
 .wrap-contact100 {
-  width: 1120px;
+  width: 1150px;
   background: #fff;
   overflow: hidden;
   display: -webkit-box;

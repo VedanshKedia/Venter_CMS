@@ -16,21 +16,61 @@
 </script>
 {% endif %}
 
+<script>
+    function upload_file()
+    {
+        '{% if request.user.profile.organisation_name|stringformat:"s" == "CIVIS" %}'
+            document.getElementById('model_choice_name').value = '{{model_choice}}';
+        '{% endif %}'
+        document.getElementById('upload_file_form').submit();
+    }
+</script>    
+
 <div class="outer-upload-file">
     <div class="inner-upload-file">
-        <form method="post" action="{% url 'upload_file' %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'upload_file' %}" enctype="multipart/form-data" id="upload_file_form">
             {% csrf_token %}
-            <h3>Upload File</h3>
-            <br><br>
-            <div class="test">
+            <div class="data title">Upload File</div><br>
+            <div class="upload-inner data">
                 <div class="container-file">
                     <label for="{{ form.input_file.id_for_label }}"></label>
                     {{ file_form.input_file }}
                 </div>
             </div>
-            <input type="submit" value="Upload" class="submit-upload">
+            <br>
+            {% if request.user.profile.organisation_name|stringformat:"s" == "CIVIS" %}
+                {% if model_choice == "keyword_model_card" %}
+                    <div id="keyword_model_upload_file">
+                        <br>
+                        <div class="domain_choice_holder">
+                            <label class="domain-present-label">Domains Present</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            {% for choice in file_form.domain_present %}                   
+                                <span class="radio">{{ choice.tag }}</span>
+                                {{ choice.choice_label }}
+                                &nbsp;&nbsp;
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div class="data">
+                            <div class="container-file">
+                                <label class="proposal_title">Choose Proposal</label>
+                                &nbsp;&nbsp;
+                                {{ file_form.proposal }}
+                                <a href="{% url 'add_proposal' %}">
+                                    <button type="button" id="add_proposal_btn">
+                                        <i class="fa fa-plus plus-fa" aria-hidden="true"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            <input type="hidden" id="model_choice_name" name="model_choice_name" value=""/>
+            <button type="button" value="Upload" class="submit-upload-file" onclick="upload_file();">Upload</button>
         </form>
-
+    
         {% if file_form.errors %}
             {% for field in file_form %}
                 {% for error in field.errors %}
@@ -40,38 +80,46 @@
                 {% endfor %}
             {% endfor %}
         {% endif %}
-    </div>
-    <!--Modal -->
-    <div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="text-center">
-                        <img src="../../static/assets/img/file_logo.png" alt="" class="file_logo-upload">
+        </div>
+        <!--Modal -->
+        <div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="text-center">
+                            <img src="../../static/assets/img/file_logo.png" alt="" class="file_logo-upload">
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="footer-center">
-                        <p class="p1-upload">File uploaded successfully.</p><br>
-                        <a href="{% url 'dashboard' %}">
-                            <button type="button" class="btn btn-warning rounded-4">
-                                Go To Dashboard &nbsp;&nbsp; <span class="lnr lnr-arrow-right"></span>
-                            </button>
-                        </a>
-
-                        <a href="{% url 'upload_file' %}">
-                            <button type="button" class="btn btn-info rounded-4">
-                                Upload new file &nbsp;&nbsp; <span class="lnr lnr-plus-circle"></span>
-                            </button>
-                        </a>
+                    <div class="modal-footer">
+                        <div class="footer-center">
+                            <p class="p1-upload">File uploaded successfully.</p><br>
+                            <a href="{% url 'dashboard' %}">
+                                <button type="button" class="btn btn-warning rounded-4">
+                                    Go To Dashboard &nbsp;&nbsp; <span class="lnr lnr-arrow-right"></span>
+                                </button>
+                            </a>
+                            {% if request.user.profile.organisation_name|stringformat:"s" == "CIVIS" %}
+                                <a href="{% url 'choose_model' %}">
+                                    <button type="button" class="btn btn-info rounded-4">
+                                        Upload new file &nbsp;&nbsp; <span class="lnr lnr-plus-circle"></span>
+                                    </button>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'upload_file' %}">
+                                    <button type="button" class="btn btn-info rounded-4">
+                                        Upload new file &nbsp;&nbsp; <span class="lnr lnr-plus-circle"></span>
+                                    </button>
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 </div>
 {% endblock %}

@@ -1,0 +1,78 @@
+/* 
+    Styling for home.css
+ */
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div2{
+    background-color: white;
+}
+
+.div3{
+    background-color: grey;
+    height: 300px;
+}
+
+.div4{
+    background-color: lavender;
+    height: 250px;
+}
+
+#imagesize{
+    width: 250px;
+}
+
+img.techstack{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 175px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 6px;
+    border-color: #1687f0;
+}
+
+img.process{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 175px;
+}
+
+img.move {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    -webkit-animation: mymove 3s infinite; /* Safari 4.0 - 8.0 */
+    animation: mymove 1s infinite;
+}
+
+.w3-row-padding.center {
+    margin: auto;
+    width: 70%;
+}
+
+.w3-row-padding.border {
+    margin: auto;
+    width: 60%;
+    border: solid;
+    padding: 10px;
+    padding-left: 30px;
+}
+
+.data{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: Copperplate;
+}
+
+.title{
+    font-family: Copperplate; 
+    font-size: 30px;
+}

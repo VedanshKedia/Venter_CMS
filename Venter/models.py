@@ -1,12 +1,12 @@
 import os
-from datetime import date, datetime
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.core.validators import RegexValidator
 from django.db import models
 
-from .helpers import get_file_upload_path, get_organisation_logo_path, get_user_profile_picture_path, get_result_file_path
+from .helpers import get_file_upload_path, get_organisation_logo_path, get_user_profile_picture_path
 
 
 class Organisation(models.Model):
@@ -59,7 +59,7 @@ class Profile(models.Model):
         upload_to=get_user_profile_picture_path,
         null=True,
         blank=True,
-        default='User Profile Picture/default-avatar.png'
+        default='default-avatar.png'
     )
     phone_number = models.CharField(
         blank=True,
@@ -88,6 +88,9 @@ class Header(models.Model):
     )
 
     class Meta:
+        """
+        Declares a plural name for Header model
+        """
         verbose_name_plural = 'Headers'
 
 
@@ -108,26 +111,92 @@ class Category(models.Model):
     )
 
     class Meta:
+        """
+        Declares a plural name for Category model
+        """
         verbose_name_plural = 'Category'
+
+
+class Proposal(models.Model):
+    """
+    A proposal that belongs to one or more uploaded xlsx files (organisation: Civis only).
+
+    # Create a Proposal
+    >>> Proposal.objects.create(proposal_name="proposal 1")
+    """
+    proposal_name = models.CharField(
+        max_length=200,
+        primary_key=True,
+    )
+
+    def __str__(self):
+        return self.proposal_name
+
+class Domain(models.Model):
+    """
+    A Domain list associated with each proposal.
+    Eg: Proposal xyz may contain domains in the xlsx file such as- water, parks etc
+
+    # Create a category instance
+    >>> Domain.objects.create(proposal_name="proposal_1", domain_name="Environment")
+    """
+    proposal_name = models.ForeignKey(
+        Proposal,
+        on_delete=models.CASCADE,
+    )
+    domain_name = models.CharField(
+        max_length=200,
+    )
+
+    def __str__(self):
+        return self.domain_name
+
+    class Meta:
+        """
+        Declares a plural name for Domain model
+        """
+        verbose_name_plural = 'Domain'
+        unique_together = ('proposal_name', 'domain_name',)
+
+class Keyword(models.Model):
+    """
+    A Keyword list associated with each domain.
+    Eg: Domain 'Environment' may contain keywords in the xlsx file such as- plant more trees in garden etc
+
+    # Create a category instance
+    >>> Keyword.objects.create(domain_name="Environment", keyword="plant more trees")
+    """
+    domain_name = models.ForeignKey(
+        Domain,
+        on_delete=models.CASCADE,
+    )
+    keyword = models.CharField(
+        max_length=200
+    )
+
+    def __str__(self):
+        return self.keyword
+
+    class Meta:
+        """
+        Declares a plural name for Domain model
+        """
+        verbose_name_plural = 'Keyword'
 
 
 class File(models.Model):
     """
     A File uploaded by the logged-in user.
-    Eg: user_1 may upload a .csv file on 12/12/12
+    Eg: user_1 may upload a .csv/.xlsx file on 12/12/12
 
     # Create a file instance
-    >>> File.objects.create(uploaded_by=user_1, input_file="file1.csv", uploaded_date = "Jan. 29, 2019, 7:59 p.m.")
-
-    Meta class------
-        1) declares a plural name for the 'File' object
-
-    Permissions------
-        1) view_organisation_files: Grants permission only to staff members to access 'dashboard_staff.html' template
-        2) view_self_files: Grants permission only to authenticated users to access 'dashboard_user.html' template
-        2) delete_organisation_files: Grants permission only to staff members to delete files
-            uploaded by user(s)/staff member(s) of the organisation
+    >>> File.objects.create(uploaded_by=user_1, input_file="file1.csv", uploaded_date = "Jan. 29, 2019, 7:59 p.m.", has_prediction=False)
     """
+    BOOL_CHOICES = ((True, 'Yes'), (False, 'No'))
+    MODEL_CHOICES = (
+        ('sentence_model', 'sentence_model'),
+        ('keyword_model', 'keyword_model'),)
+
     uploaded_by = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
@@ -142,29 +211,62 @@ class File(models.Model):
     has_prediction = models.BooleanField(
         default=False,
     )
-    output_file_json = models.FileField(blank=True)
-    output_file_xlsx = models.FileField(blank=True)
+    file_saved_status = models.BooleanField(
+        default=False,
+    )
+    domain_present = models.BooleanField(
+        choices=BOOL_CHOICES,
+        default=False,
+    )
+    model_choice = models.CharField(
+        choices=MODEL_CHOICES,
+        max_length=15,
+        blank=True,
+        null=True,
+    )
+
+    output_file_json = models.FileField(blank=True, max_length=255)
+    output_file_xlsx = models.FileField(blank=True, max_length=255)
+    wordcloud_data = models.FileField(blank=True, max_length=255)
+    proposal = models.ForeignKey(
+        Proposal,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='proposal',
+    )
 
     @property
     def filename(self):
         """
-        Returns the name of the csv file uploaded.
-        Usage: dashboard_user.html template
+        Returns the name of the file uploaded.
+        Usage: dashboard.html template
         """
         return os.path.basename(self.input_file.name)  # pylint: disable = E1101
     @property
     def output_name(self):
-        return os.path.basename(self.output_file.name)
+        """
+        Returns the file path for output file to be created
+        """
+        return os.path.basename(self.output_file.name) # pylint: disable = E1101
 
     def delete(self):
+        """
+        Deletes json and xlsx/csv output files from file storage
+        Usage: dashboard.html template (on click trash icon by Staff member)
+        """
         if self.output_file_json:
             default_storage.delete(self.output_file_json)
         if self.output_file_xlsx:
             default_storage.delete(self.output_file_xlsx)
         default_storage.delete(self.input_file)
-        print("\n\nInput file should be gone\n\n")
         super().delete()
 
     class Meta:
+        """
+        Displays recently uploaded files at the top of file list.
+        Declares a plural name for File model
+        Usage: dashboard.html template
+        """
         verbose_name_plural = 'File'
-        ordering=["-uploaded_date"]
+        ordering = ["-uploaded_date"]

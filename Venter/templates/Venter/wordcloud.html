@@ -1,0 +1,268 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Word Cloud {% endblock %}
+{% block content %}
+
+<!-- LINEARICONS -->
+<link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
+<link rel="stylesheet" href="../../static/assets/css/wordcloud.css">
+
+<script type="text/javascript">
+    // var word_array = [
+    //     {text: "Lorem", weight: 15},
+    //     {text: "Ipsum", weight: 9},
+    //     {text: "Dolor", weight: 6},
+    //     {text: "Sit", weight: 7},
+    //     {text: "Amet", weight: 5}
+    // ];
+
+    window.onload = function WindowLoad(event) {
+
+                /*  ======================= SETUP ======================= */
+            var config = {
+                trace: true,
+                spiralResolution: 1, //Lower = better resolution
+                spiralLimit: 360 * 4,
+                lineHeight: 0.8,
+                xWordPadding: 0,
+                yWordPadding: 3,
+                font: "sans-serif"
+            }
+
+            var words = []
+            '{% if words %}'
+                console.log('words dict exists');
+                console.log('{{words}}');
+                '{% for i,j in words.items %}'
+                    var weight = parseInt('{{j}}');
+                    words.push({"freq": weight+10, "word": '{{i}}'});
+                '{% endfor %}'
+            '{% else %}'
+                console.log("error has occured in words dict");    
+            '{% endif %}'
+            
+
+
+            words.sort(function(a, b) {
+                // changing from "-1 * (a.freq - b.freq)" to "1 * (a.freq - b.freq)"
+                return -1 * (a.freq - b.freq);
+            });
+
+            var cloud = document.getElementById("word-cloud");
+            // changing relative to absolute
+            cloud.style.position = 'absolute';
+            cloud.style.fontFamily = config.font;
+
+            var startPoint = {
+                x: cloud.offsetWidth / 2,
+                y: cloud.offsetHeight / 2
+            };
+
+            var wordsDown = [];
+            /* ======================= END SETUP ======================= */
+
+            /* =======================  PLACEMENT FUNCTIONS =======================  */
+            function createWordObject(word, freq) {
+                var wordContainer = document.createElement("div");
+                wordContainer.style.position = "absolute";
+                wordContainer.style.fontSize = freq + "px";
+                wordContainer.style.lineHeight = config.lineHeight;
+                // wordContainer.style.transform = "translateX(-50%) translateY(-50%)";
+                wordContainer.appendChild(document.createTextNode(word));
+
+                return wordContainer;
+            }
+
+            function placeWord(word, x, y) {
+                cloud.appendChild(word);
+                // changing "-" to "+"
+                word.style.left = x + word.offsetWidth/2 + "px";
+                word.style.top = y + word.offsetHeight/2 + "px";
+
+                function rndColor() {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    return color;
+
+                }
+
+                word.style.color = rndColor();
+
+                wordsDown.push(word.getBoundingClientRect());
+            }
+
+            function trace(x, y) {
+            //     traceCanvasCtx.lineTo(x, y);
+            //     traceCanvasCtx.stroke();
+            //    traceCanvasCtx.fillRect(x, y, 1, 1);
+            }
+
+            function spiral(i, callback) {
+                angle = config.spiralResolution * i;
+                // changing the format from "x = (1 + angle) * Math.cos(angle);" to 
+                // "x = 1 + (angle) * Math.cos(angle);" for both x and y
+                x = 1 + (angle) * Math.cos(angle);
+                y = 1 + (angle) * Math.sin(angle);
+                return callback ? callback() : null;
+            }
+
+            function intersect(word, x, y) {
+                cloud.appendChild(word);    
+                // changing both "-" to "+"
+
+                X = x + word.offsetWidth/2;
+                Y = y + word.offsetHeight/2;
+
+                // if conditions
+
+                if(X<0){
+                    X = -1*X;
+                }
+
+                if(Y<0){
+                    Y = -1*Y;
+                }
+
+
+                word.style.left = X + "px";
+                word.style.top = Y + "px";
+
+                
+                
+                var currentWord = word.getBoundingClientRect();
+                
+                cloud.removeChild(word);
+                
+                for(var i = 0; i < wordsDown.length; i+=1){
+                    var comparisonWord = wordsDown[i];
+                    
+                    if(!(currentWord.right + config.xWordPadding < comparisonWord.left - config.xWordPadding ||
+                        currentWord.left - config.xWordPadding > comparisonWord.right + config.wXordPadding ||
+                        currentWord.bottom + config.yWordPadding < comparisonWord.top - config.yWordPadding ||
+                        currentWord.top - config.yWordPadding > comparisonWord.bottom + config.yWordPadding)){
+                        
+                        return true;
+                    }
+                }
+                
+                return false;
+            }
+            /* =======================  END PLACEMENT FUNCTIONS =======================  */
+
+
+
+
+
+            /* =======================  LETS GO! =======================  */
+            (function placeWords() {
+                for (var i = 0; i < words.length; i += 1) {
+
+                    var word = createWordObject(words[i].word, words[i].freq);
+
+                    for (var j = 0; j < config.spiralLimit; j++) {
+                        //If the spiral function returns true, we've placed the word down and can break from the j loop
+                        if (spiral(j, function() {
+                                if (!intersect(word, startPoint.x + x, startPoint.y + y)) {
+                                    placeWord(word, startPoint.x + x, startPoint.y + y);
+                                    return true;
+                                }
+                            })) {
+                            break;
+                        }
+                    }
+                }
+            })();
+            /* ======================= WHEW. THAT WAS FUN. We should do that again sometime ... ======================= */
+
+
+
+            /* =======================  Draw the placement spiral if trace lines is on ======================= */
+    }     
+
+    $(document).ready(function () {
+        '{% if filemeta.uploaded_by.organisation_name|stringformat:"s" == "CIVIS" %}'
+            var domain_name = '{{domain_name}}';
+            document.getElementById('label_domain_name').innerHTML = domain_name;
+
+            '{% if category_name %}';
+                var category_name = '{{category_name|escapejs}}';
+                document.getElementById('label_category_name').style.visibility = 'visible';
+                document.getElementById('label_category').style.visibility = 'visible';
+                document.getElementById('label_category_name').innerHTML = category_name;
+            '{% endif %}';
+        '{% endif %}'
+
+        $(".wordcloud-btn").click(function(event){
+            '{% if filemeta.uploaded_by.organisation_name|stringformat:"s" == "CIVIS" %}'
+
+                    var selected_option = $('#category_dropdown option:selected').val();
+                    
+                    if(selected_option == "0"){
+                        alert("Please select a category");
+                    }
+                    else{
+                        var category_name = $('#category_dropdown').val();
+                        let category_list = []
+                        $("#category_dropdown option").each(function(){
+                            if ($(this).val() == '0')
+                            {
+                                //pass;
+                            }
+                            else
+                            {
+                                let temp = $(this).text();
+                                let cat = temp.replace(/^\s+|\s+$/g, "");
+                                category_list.push(cat);
+                            }
+                        })
+                        document.getElementById('category_list').value = JSON.stringify(category_list);
+                        document.getElementById('category_name').value = category_name;
+
+                        var domain = document.getElementById('label_domain_name').innerHTML;
+                        document.getElementById('domain_name').value = domain;
+                        document.getElementById('category_form').submit();
+                    }
+            '{% elif filemeta.uploaded_by.organisation_name|stringformat:"s" == "ICMC" %}'
+                    document.getElementById('category_form').submit();
+            '{% endif %}'    
+        });   
+    });
+</script>
+
+<div class="outer-wc">
+    <div class="inner-wc">
+        <div class="category-container">
+            <form method="post" id="category_form" action="{% url 'wordcloud_contents' filemeta.pk %}">
+                {% csrf_token %}
+                <label id="label_domain_name">Domain</label>
+                <br>
+                <label id="label_category">Category Selected: </label>&nbsp;&nbsp;
+                <label id="label_category_name">Category</label>
+                <br>
+                <select id="category_dropdown">
+                    <option value="0">---select category---</option>
+                    {% for item in category_list %}
+                        <option value='{{ item }}' >{{ item }}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" id="category_name" name="category_name" value=""/>
+                <input type="hidden" id="domain_name" name="domain_name" value=""/>
+                <input type="hidden" id="category_list" name="category_list" value=""/>
+                <button type="button" class="btn btn-danger wordcloud-btn">
+                    Generate wordcloud &nbsp;<i class="fa fa-cloud cloud-fa" aria-hidden="true"></i>
+                </button>
+            </form>
+            <a href="{% url 'predict_result' filemeta.pk %}"><button class="btn btn-success">Back</button></a>  
+        </div>
+        <br>
+        <table class="table table-responsive" id="word-cloud">
+                <!-- <div id="word-cloud">
+                </div> -->
+        </table>
+        <!-- <div id="word-cloud">
+        </div> -->
+    </div>    
+</div>
+{% endblock %}

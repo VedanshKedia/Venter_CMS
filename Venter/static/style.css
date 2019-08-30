@@ -2,14 +2,97 @@
 Styling for index.html
 */
 
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+
+.test {
+    float:right;
+    padding-top: 1%;
+    font-size: 14pt;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 30px;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+.topnav a.nav-link:hover {
+color: #58b0e0;
+}
+
+.demo-button{
+  font-size: 14pt;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: transparent;
+  color: white;
+  border: solid grey;
+  width: 147px;
+  height: 35px;
+  border-radius: 3px;
+}
+
+.demo-button:hover{
+  font-size: 14pt;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: transparent;
+  color: white;
+  border: solid white;
+  width: 147px;
+  height: 35px;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a.nav-link{display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a.nav-link {
+    float: center;
+    display: block;
+    text-align:left;
+    border: 1px solid;
+    width: 100vw;
+  }
+}  
+ 
 .imagelogo-index {
     width: 80px;
     height: 70px;
     float: left;
-}
+}   
 
 .wrapper {
     background-color:white;
+}
+
+.app-label {
+    padding-top: 10px;
+    font-size: 50px;
+    color: whitesmoke;
+    text-align: center;
 }
 
 .content-index{
@@ -20,24 +103,30 @@ Styling for index.html
     background-color: black;
 }
 
-.app-label {
-    font-size: 40px;
-    color: whitesmoke;
+.footer-index {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #333333;
+    color: white;
     text-align: center;
-  }
-
+ }
+ 
 /*
 Styling for base.html
 */
+
 .imagelogo-base {
     width: 140px;
+    height: 125px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 50%;
+    padding-top: 10px;
 }
-.content-base{
-    height: 100vh;
-    width:83vw;
-    margin-left: 6%;
+
+div.sidebar-wrapper li.wordcloud-item{
+  display: none;
 }

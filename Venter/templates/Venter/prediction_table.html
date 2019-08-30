@@ -1,0 +1,410 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Prediction Table {% endblock %}
+{% block content %}
+ 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../static/assets/css/prediction_table.css">
+<script src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
+
+<!-- {% if filemeta.file_saved_status %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#fileSavedModal").modal('show');
+    });
+</script>
+{% endif %}  -->
+
+<script>  
+    function toggleField(hideObj,showObj){
+        hideObj.disabled=true;		
+        hideObj.style.display='none';
+        showObj.disabled=false;	
+        showObj.style.display='inline';
+        showObj.focus();
+    }
+
+    function colorcode(num, index) {
+        if (num > 90) {
+            $("#" + index).attr("style", "background-color: #00a33b");
+        } else if (num > 80) {
+            $("#" + index).attr("style", "background-color: #06d636");
+        } else if (num > 70) {
+            $("#" + index).attr("style", "background-color: #4ee802");
+        } else if (num > 60) {
+            $("#" + index).attr("style", "background-color: #c3ff00");
+        } else if (num > 50) {
+            $("#" + index).attr("style", "background-color: #f6ff00");
+        } else if (num > 40) {
+            $("#" + index).attr("style", "background-color: #ffe100");
+        } else if (num > 30) {
+            $("#" + index).attr("style", "background-color: #ffbb00");
+        } else if (num > 20) {
+            $("#" + index).attr("style", "background-color: #ff8c00");
+        } else if (num > 10) {
+            $("#" + index).attr("style", "background-color: #ff5900");
+        } else {
+            $("#" + index).attr("style", "background-color: #af0101");
+        }
+    }
+ 
+    $(document).on("click", ".delete-custom-category-btn", function() {
+        var parent = $(this).closest("li");
+        parent.remove();
+    });
+
+    $(document).on("click", ".change-selection-btn", function() {
+        var parent = $(this).closest("li");
+        if(parent.attr("style") == "text-decoration:line-through")
+        {
+            parent.attr("style", "text-decoration:none");
+        }
+        else{
+            parent.attr("style", "text-decoration:line-through");
+        }
+    });
+
+    function add_custom_category(ul_id, select_id, input_id){
+        var ul = $("#"+ul_id);
+        if ($("#"+select_id)[0].selectedIndex<=0)
+        {
+            var cat_from_input = $("#"+input_id).val();
+            if (!cat_from_input.replace(/\s/g, '').length)
+            {
+                alert("Please enter a valid input");
+            }
+            else
+                {
+                    added_category = cat_from_input;
+                    $(ul)
+                        .prepend('<li>'+added_category+'&nbsp;&nbsp;<button type="button" class="delete-custom-category-btn"><i class="fa fa-times delete-fa" aria-hidden="true"></i></button></li>')
+                }
+            $("#"+input_id).val("");
+        }
+        else{
+            var cat_from_select = $("#"+select_id).val();
+            if (cat_from_select == '0'){
+                alert("Please select a valid category");
+            }
+            else{
+                added_category = cat_from_select;
+                $(ul)
+                    .prepend('<li>'+added_category+'&nbsp;&nbsp;<button type="button" class="delete-custom-category-btn"><i class="fa fa-times delete-fa" aria-hidden="true"></i></button></li>')
+            }   
+            $("#"+select_id)[0].selectedIndex = 0;
+        }
+    }
+
+    function save_file()
+    {
+        var dict = {}
+        let sorted_category_list = []
+        $(".category_list").each(function(){
+            var temp1 = this.id
+            temp1 = temp1.substring(2)
+            var index = parseInt(temp1)
+            let temp = []
+            $(this).children().each(function(){
+                if($(this).children().attr("style") != "text-decoration:line-through"){
+                    let cat = $(this).text();
+                    cat = cat.replace(/\s\s+/g, ' ');
+                    temp.push(cat);
+                }
+            })
+            dict[index] = temp
+        })
+        
+        for (row in dict)
+        {
+            sorted_category_list.push(dict[row])
+        }
+        document.getElementById('sorted_category').value = JSON.stringify(sorted_category_list);
+        document.getElementById('file_saved_status').value = "True";
+        document.getElementById('category_form').submit();
+    }
+
+    $(document).ready(function(){
+        /* jquery for setting href of visulization navigation drawer item for user to access wordcloud template */
+        if($(".sidebar-wrapper li.wordcloud-item").is(":visible")){
+            $(".sidebar-wrapper li.wordcloud-item .nav-link").attr("href","{% url 'wordcloud' filemeta.pk %}")
+        }
+
+        /* jquery for response search through the search bar */
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tbody_table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        /* jquery for response filter by category, ward name, complaint creation date */
+        $("#multi_filter_btn").on("click", function() {
+            $("#pagination_nav").hide();
+            var cat = $('#category').find(":selected").text();
+            var pl = $('#place').find(":selected").text();
+            var d = $('#date').find(":selected").text();
+            if(pl == 'All' && d == 'All' && cat == 'All') {
+                $("#pagination_nav").show();
+            }
+            if(pl == 'All'){
+                pl='';
+            }
+            if(d == 'All')
+            {
+                d='';
+            }
+            if(cat == 'All')
+            {
+                cat='';
+            }
+            $("#tbody_table tr").filter(function() {
+                $(this).toggle($(this).find("ul").text().indexOf(cat) > -1 && $(this).text().indexOf(d) > -1 && $(this).text().indexOf(pl) > -1)
+            });
+        });
+
+        /* jquery for pagination of table rows */
+        $('#main_content_table').after('<ul class="pagination" id="pagination_nav"></ul>');
+        var rowsShown;
+        var rowsTotal = $('#tbody_table tr').length;
+        if (rowsTotal < 30)
+        {
+            rowsShown = 5;
+        }
+        else
+        {
+            rowsShown = 20;
+        }
+        
+        var numPages = rowsTotal/rowsShown;
+        for(i = 0;i < numPages;i++) {
+            var pageNum = i + 1;
+            $('#pagination_nav').append('<li class="page-item"><a href="#" rel="'+i+'" class="page-link">'+pageNum+'</a></li>');
+        }
+        $('#tbody_table tr').hide();
+        $('#tbody_table tr').slice(0, rowsShown).show();
+        $('#tbody_table a:first').addClass('active');
+        $('#pagination_nav a').bind('click', function(){
+
+            $('#pagination_nav a').removeClass('active');
+            $(this).addClass('active');
+            var currPage = $(this).attr('rel');
+            var startItem = currPage * rowsShown;
+            var endItem = startItem + rowsShown;
+            $('#tbody_table tr').css('opacity','0.0').hide().slice(startItem, endItem).
+            css('display','table-row').animate({opacity:1}, 300);
+        });
+
+    });
+
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("main_content_table");
+        switching = true;
+        //Set the sorting direction to ascending:
+        dir = "asc"; 
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /*check if the two rows should switch place,
+                based on the direction, asc or desc:*/
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch= true;
+                    break;
+                    }
+                } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        //if so, mark as a switch and break the loop:
+                        shouldSwitch = true;
+                        break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    //Each time a switch is done, increase this count by 1:
+                    switchcount ++;      
+                } else {
+                    /*If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again.*/
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+</script>
+
+
+<div class="outer-pt">
+    <div class="inner-pt">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="col-sm-5">
+                    <input type="text" id="myInput" class="form-control" placeholder="Search">
+                </div> 
+            </div>
+            <div class="col-sm-1">
+                <form method="post" id="category_form" action="{% url 'download_table' filemeta.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" id="file_saved_status" name="file_saved_status" value=""/>
+                    <input type="hidden" id="sorted_category" name="sorted_category" value=""/>
+                    <button type="button" class="btn btn-primary" onclick="save_file();">Save File &nbsp;<i class="fa fa-save save-fa" aria-hidden="true"></i>
+                    </button>
+                </form>
+            </div>
+        </div><br>
+
+        <div class="selects-container" style="display:inline-block;">
+            Category:
+            <select name="category" id="category">
+                <option>All</option>
+                {% for item in category_list %}
+                    <option value='{{ item }}' >{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="selects-container" style="display:inline-block;">
+            Place:
+            <select name="place" id="place">
+                <option>All</option>
+                {% for item in ward_list %}
+                    <option value='{{ item }}'>{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>&nbsp;&nbsp;
+        <div class="selects-container" style="display:inline-block;">
+            Date:
+            <select name="date" id="date">
+                <option>All</option>
+                {% for item in date_list %}
+                    <option value='{{ item }}'>{{ item }}</option>
+                {% endfor %}
+            </select>
+        </div>&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary" id="multi_filter_btn">Submit</button>
+        <br><br>
+
+        <div id="container-table">
+            <table class="table table-bordered table-striped" id="main_content_table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="table-cell-conf-score">
+                            Highest Confidence &nbsp;
+                            <button onclick="sortTable(0);" class="filter_button"> 
+                                <i class="fa fa-filter fa-2x filter-fa" aria-hidden="true"></i>
+                            </button>
+                        </th>
+                        <th class="table-cell-cat">
+                            Predicted Categories
+                        </th>
+                        <th>
+                            Problem Description &nbsp; &nbsp; 
+                            <button onclick="sortTable(2);" class="filter_button">
+                                <i class="fa fa-filter fa-2x filter-fa" aria-hidden="true"></i>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody_table">
+                    {% for item in dict_list %}
+                    <tr>
+                        <td class="table-cell-conf-score" id="td{{ item.index }}">
+                            {{ item.highest_confidence }}%
+                        </td>
+                        <td class="table-cell-cat">
+                            <script>colorcode("{{item.highest_confidence}}", "td{{ item.index }}");</script>  
+                                    <ul class="category_list" id="ul{{ item.index }}">   
+                                        {% if filemeta.file_saved_status %}
+                                            {% for cat in item.category %}
+                                                {% if cat == "" %}
+                                                    <!--continue-->
+                                                {% else %}
+                                                    <div class="input-group">
+                                                        <li class="change-selection-btn">
+                                                            {{ cat }}
+                                                        </li>
+                                                    </div>   
+                                                {% endif %} 
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for cat, prob in item.category.items %}
+                                            <div class="input-group">
+                                                <li class="change-selection-btn">
+                                                    {{ cat }} ({{prob}})%
+                                                </li>
+                                            </div>    
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul> 
+                                    <select name="category" id="select{{ item.index }}" class="select_cat" onchange="if(this.options[this.selectedIndex].value=='customOption'){toggleField(this,this.nextSibling); this.selectedIndex='0';}">
+                                        <option value="0">---- select ----</option>
+                                        <option value="customOption">[enter your own custom category]</option>
+                                        {% for cat in category_list %}
+                                            <option value="{{ cat }}">{{ cat }}</option>
+                                        {% endfor %}
+                                        <input name="category" id="input{{ item.index }}" class="input_cat" type="text" placeholder="Type category to add" disabled="disabled" onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
+                                    </select>
+                                        
+                                    <button type="button" id="add-custom-category-btn" class="add-custom-category-btn" onclick="add_custom_category('ul{{ item.index }}', 'select{{ item.index }}','input{{ item.index }}');">
+                                        <i class="fa fa-plus plus-fa" aria-hidden="true"></i>
+                                    </button>  
+                        </td>
+                        <td class="table-cell-problem" id="table-cell-problem">
+                            {{ item.problem_description }}
+                            <br>
+                            <div class="ward">{{item.ward_name}} </div>
+                            <div class="date">{{item.date_created}} </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
+
+<div class="modal fade" id="fileSavedModal" tabindex="-1" role="dialog" aria-labelledby="fileSavedModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="text-center">
+                    <img src="../../static/assets/img/file_logo.png" alt="" class="file_logo-table">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="footer-center">
+                    <p class="p1-update">File saved!</p>
+                        <a href="{% url 'predict_csv' filemeta.pk %}">
+                            <button type="button" class="btn btn-info rounded-4">
+                                Edit file &nbsp;&nbsp; <span class="lnr lnr-pencil"></span>
+                            </button>
+                        </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

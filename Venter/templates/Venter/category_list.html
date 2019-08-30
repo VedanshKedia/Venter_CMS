@@ -11,44 +11,49 @@
 
 <div class="outer-category">
   <div class="container-category">
+
     {% if category_list %}
+
     <div class="search-form-category">
       <form action="{% url 'category_list' %}" method="get">
         <div class="form-group row">
-            <div class="col-lg-3">
-              <input type="submit" value="Search" class="btn btn-primary active">
-            </div>
-            <div class="col-lg-7">
-              <input type="text" name="q" class="form-control" placeholder="Search category">
-            </div>
+          <div class="col-lg-1">
+            <input type="submit" value="Search" class="btn btn-primary active">
+          </div>
+          <div class="col-lg-7">
+            <input type="text" name="q" class="form-control" placeholder="Search category">
+          </div>
         </div>
       </form>
-    </div><br>
+    </div>
+    <div>
+      <table class="table table-hover">
+        <br>
+        <thead class="thead-dark">
+          <tr>
+            <th>Category List</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in category_list %}
+          <tr>
+            <td>
+              {{c.category}}
+            <td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
-    <table class="table table-hover">
-      <thead class="thead-dark">
-        <tr>
-          <th>Category List</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for c in category_list %}
-        <tr>
-          <td>
-            {{c.category}}
-          <td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <div class="div-pagination">
+    <div class="pagination-container">
       {% block pagination %}
       {% if is_paginated %}
-      <ul class="pagination justify-content-center">
+      <ul class="pagination">
         {% if page_obj.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
+          <a class="page-link"
+            href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Previous</a>
         </li>
         {% else %}
         <li class="page-item" disabled="">
@@ -70,7 +75,8 @@
 
         {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link" href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
+          <a class="page-link"
+            href="{{ request.path }}?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
         </li>
         {% else %}
         <li class="page-item" disabled="">

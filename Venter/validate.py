@@ -17,17 +17,24 @@ def input_file_header_validation(uploaded_input_file, request):
 
     # extracting and converting the header from bytes to string format
     csv_header = uploaded_input_file.readline()
-    csv_str = str(csv_header, encoding='utf-8')
+    
 
+    csv_str = str(csv_header, encoding='utf-8-sig')
     # converting the headers from string to list using comma separated delimiters
     csv_list = csv_str.split(',')
 
     # strip() function executes over each item of csv_list to remove all the leading and trailing whitespaces
     # this should normalise all the header categories with whitespaces in them
     # then we cast the list to a set to allow us to validate it with the organisation's header list
-    csv_stripped_list = [item.strip() for item in csv_list]
-    csv_set = set(csv_stripped_list)
+    csv_stripped_list =[]
+    for i in csv_list:
+        j = i.strip()
+        csv_stripped_list.append(j)
 
+    temp = sorted(csv_stripped_list)
+    csv_final_list = list(temp)
+    csv_set = set(csv_final_list)
+    
     # obtaining the organisation name of the logged-in user
     org_name = request.user.profile.organisation_name
 
@@ -35,6 +42,10 @@ def input_file_header_validation(uploaded_input_file, request):
     model_header_list = Header.objects.filter(
         organisation_name=org_name).values_list('header', flat=True)
     header_set = set(model_header_list)
-    if csv_set == header_set:
+    database_header_list = list(header_set)
+    database_header_list = sorted(database_header_list)
+    database_set = set(database_header_list)
+
+    if csv_set == database_set:
         return True
     return False

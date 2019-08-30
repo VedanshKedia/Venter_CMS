@@ -11,138 +11,177 @@ Styling for update_profile.html
   src: url('../fonts/montserrat/Montserrat-Bold.ttf'); 
 }
 
+@font-face {
+  font-family: "Muli-SemiBold";
+  src: url("../../assets/fonts/muli/Muli-SemiBold.ttf"); 
+}
 
-.modal-body{
-    height: 180px;
-    background-color: #32bc65;
-  }   
+.modal-body {
+  height: 180px;
+  background-color: #32bc65;
+}   
 
-  .user_logo-update{
-    width:150px;
-    height:140px;
-  }
+.user_logo-update{
+  width:150px;
+  height:140px;
+}
 
-  .modal-footer{
-    height: 150px;
-    background-color: white;
-  }
+.modal-footer{
+  height: 150px;
+  background-color: white;
+}
 
-  .nav li.user-profile-item .nav-link{
-    color: #FFFFFF;
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.23);
-  }
+.nav li.user-profile-item .nav-link{
+  color: #FFFFFF;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.23);
+}
 
-  .footer-center{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .p1-update{
-    color: grey;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 20px;
-  }
-
-  .outer-profile{
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f2f2f2;
-  }
-
-  .wrap-profile {
-    width: 700px; 
-    background: transparent;
-    padding: 50px 0px 160px 0px;
-  }
-
-  .profile-form{
-    width: 100%;
-    margin-top: 40px;
-  }
-
-  .profile-avatar{
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+.footer-center{
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.p1-update{
+  color: grey;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+}
+
+.outer-profile{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+}
+
+.wrap-profile {
+  width: 700px; 
+  background: transparent;
+  padding: 50px 0px 160px 0px;
+}
+
+.profile-form{
+  width: 100%;
+  margin-top: 40px;
+}
+
+.profile_picture_container .profile-avatar{
+  border-radius: 50%;
+  display: block;
   border: 8px solid black;
-  }
+  width: 200px;
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  .wrap-field {
-    width: 700px;
-    background-color: #fff;
-    border-radius: 31px;
-    margin-bottom: 10px;
-    height: 60px;
-    position: relative;
-    z-index: 1;
-    align-items: center;
-    display: flex;
-  }
+.wrap-field {
+  width: 700px;
+  background-color: #fff;
+  border-radius: 31px;
+  margin-bottom: 10px;
+  height: 60px;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+  display: flex;
+}
   
-  .wrap-field-profile-picture{
-    width: 700px;
-    background-color: #fff;
-    border-radius: 31px;
-    margin-bottom: 10px;
-    height: 80px;
-    position: relative;
-    z-index: 1;
-    align-items: center;
-  }
+.wrap-field-profile-picture{
+  width: 700px;
+  background-color: #fff;
+  border-radius: 31px;
+  margin-bottom: 10px;
+  height: 80px;
+  position: relative;
+  z-index: 1;
+  align-items: center;
+}
 
-  .org-label{
-    font-weight: bold;
-    font-size: 25px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin: 0 auto;
-  }
+.org-label{
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 0 auto;
+}
 
-  .username-label, .phone-number-label, .profile-picture-label{
-    font-family: Montserrat-Bold;
-    font-size: 17px;
-    margin-left: 10%;
-  }
+.username-label, .phone-number-label, .profile-picture-label{
+  font-family: Montserrat-Bold;
+  font-size: 17px;
+  margin-left: 10%;
+}
 
-  .update_profile_btn {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    min-width: 150px;
-    height: 62px;
-    background-color: #3c97ec;
-    border-radius: 31px;
-  
-    width: calc(100% + 20px);
-    font-family: Poppins-Bold;
-    font-size: 16px;
-    color: #fff;
-    line-height: 1.2;
-    text-transform: uppercase;
-  
-    -webkit-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    transition: all 0.4s;
-    position: relative;
-    z-index: 1;
-  }
+div.sidebar-wrapper li.wordcloud-item{
+  display: none;
+}
 
-  .update_profile_btn:hover {
-    background-color: #403866;
-    width: calc(100% + 20px);
-  }
-  
-  
-  
+.file_upload_btn{
+  display: none;
+}
+
+.label-data{
+  font-size:20px;
+  font-weight: bold;
+  display:inline;
+}
+
+.field{
+  font-size:20px;
+  display: inline;
+}
+
+.center{
+  margin:0 auto;
+}
+
+.submit-update-profile {
+  border: none;
+  width: 100%;
+  height: 49px;
+  margin-top: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #99ccff;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "Muli-SemiBold";
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: all 0.5s;
+  position: relative;
+  overflow: hidden; }
+.submit-update-profile span {
+  position: relative;
+  z-index: 2; }
+.submit-update-profile:hover{
+  background: #1a8cff;
+}
+.submit-update-profile:before, .submit-update-profile:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(52, 152, 253, 0.25);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-transform: translate(-100%, 0);
+  transform: translate(-100%, 0);
+  -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+  transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1); }
+.submit-update-profile:after {
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s; }
+.submit-update-profile:hover:before, .submit-update-profile:hover:after {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0); }

@@ -1,5 +1,6 @@
 {% extends 'Venter/index.html' %}
 {% block title %}Contact Us{% endblock %}
+{% load widget_tweaks %}
 {% block content %}
 
 <!-- LINEARICONS -->
@@ -19,67 +20,136 @@
     <div class="container-contact100">
         <div class="outer">
             <div class="wrap-contact100">
-                <div class="contact100-more flex-col-c-m">
-                    <div class="top-info">
-                        <div class="txt1 row">
-                            <div class="col-1">
-                                <span class="lnr lnr-map-marker"></span>
+
+                <div class="contact100-more">
+                    <div class="contact-support">
+                        <div class="top-info">
+                            <div class="txt1 row">
+                                <div class="col-1">
+                                    <span class="lnr lnr-map-marker"></span>
+                                </div>
+                                <div class="col-4">
+                                    <label>Address</label>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <label>Address</label>
+                            <div class="address">
+                                <span class="txt2">
+                                    <label class="label-address"> New CSE Building, IIT Bombay, Powai, Mumbai,
+                                        Maharashtra</label>
+                                </span>
                             </div>
-                        </div>
-                        <div class="address">
-                            <span class="txt2">
-                                <label class="label-address"> New CSE Building, IIT Bombay, Powai, Mumbai,
-                                    Maharashtra</label>
-                            </span>
-                        </div>
-                        <br><br><br>
-                        <div class="txt1 row">
-                            <div class="col-1">
-                                <span class="lnr lnr-envelope"></span>
+    
+                            <br><br><br>
+    
+                            <div class="txt1 row">
+                                <div class="col-1">
+                                    <span class="lnr lnr-envelope"></span>
+                                </div>
+                                <div class="col-4">
+                                    <label>General Support</label>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <label>General Support</label>
+                            <div class="address">
+                                <span class="txt2">
+                                    <label class="label-address"> venterproject@gmail.com</label>
+                                </span>
                             </div>
-                        </div>
-                        <div class="address">
-                            <span class="txt2">
-                                <label class="label-address"> venterproject@gmail.com</label>
-                            </span>
+    
+                            <br><br><br>
+    
+                            <div class="txt1 row">
+                                <div class="col-1">
+                                    <span class="lnr lnr-phone-handset"></span>
+                                </div>
+                                <div class="col-4">
+                                    <label>Phone Number</label>
+                                </div>
+                            </div>
+                            <div class="address">
+                                <span class="txt2">
+                                    <label class="label-address"> +91 836 906 8038</label>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="contact-social-media">
+                        <span class="contact-media-title">
+                                Connect With Us
+                        </span>
+                        <div class="row media-icons-row">
+                            <div class="col-sm-3">
+                                <a href="https://www.youtube.com/watch?v=4HBmdexe7-I" class="fa fa-youtube"></a>
+                            </div>  
+                            <div class="col-sm-3">
+                                <a href="#" class="fa fa-facebook"></a>   
+                            </div> 
+                            <div class="col-sm-3">
+                                <a href="https://www.linkedin.com/company/venter-iitb" class="fa fa-linkedin"></a>  
+                            </div>    
+                        </div>    
+                    </div>    
                 </div>
+
                 <form class="contact100-form validate-form" method="post" action="{% url 'contact_us' %}">
                     {% csrf_token %}
                     <span class="contact100-form-title">
                         Send Us A Message
                     </span>
 
-                    <label class="label-input100" for="first-name">Company Name</label>
+                    <label class="label-input100" for="first-name">First Name<sup class="required-field-mark">*</sup></label>
+                    <div class="wrap-input100">
+                        {{ contact_form.first_name }}
+                    </div>
+
+                    <label class="label-input100" for="first-name">Last Name<sup class="required-field-mark">*</sup></label>
+                    <div class="wrap-input100">
+                        {{ contact_form.last_name }}
+                    </div>
+
+                    <label class="label-input100" for="first-name">Company Name<sup class="required-field-mark">*</sup></label>
                     <div class="wrap-input100">
                         {{ contact_form.company_name }}
                     </div>
 
-                    <label class="label-input100" for="email">Enter your email</label>
+                    <label class="label-input100" for="first-name">Designation<sup class="required-field-mark">*</sup></label>
+                    <div class="wrap-input100">
+                        {{ contact_form.designation }}
+                    </div>
+
+                    <label class="label-input100" for="first-name">City<sup class="required-field-mark">*</sup></label>
+                    <div class="wrap-input100">
+                        {{ contact_form.city }}
+                    </div>
+
+                    <label class="label-input100" for="email">Email ID<sup class="required-field-mark">*</sup></label>
                     <div class="wrap-input100">
                         {{ contact_form.email_address }}
                     </div>
 
-                    <label class="label-input100" for="phone">Enter phone number</label>
+                    <label class="label-input100" for="phone">Phone number<sup class="required-field-mark">*</sup></label>
                     <div class="wrap-input100">
                         {{ contact_form.contact_no }}
                     </div>
 
-                    <label class="label-input100" for="message">Message</label>
+                    <label class="label-input100" for="message">Business your organisation is engaged in<sup class="required-field-mark">*</sup></label>
                     <div class="wrap-input100">
-                        {{ contact_form.requirement_details }}
+                        {{ contact_form.detail_1 }}
+                    </div>
+
+                    <label class="label-input100" for="message">Relevance of your business to Venter Product<sup class="required-field-mark">*</sup></label>
+                    <div class="wrap-input100">
+                        {{ contact_form.detail_2 }}
+                    </div>
+
+                    <label class="label-input100" for="message">How do you think Venter can help your business?</label>
+                    <div class="wrap-input100">
+                        {{ contact_form.detail_3 }}
                     </div>
 
                     <div class="container-contact100-form-btn">
                         <button class="contact100-form-btn">
-                            Send Message
+                            Submit
                         </button>
                     {% if contact_form.errors %}
                     {% for field in contact_form %}
@@ -93,6 +163,73 @@
                     </div>
 
                 </form>
+
+<!-- Load widget Tweaks Attempt -->
+<!-- 
+<form method="post" class="contact100-form validate-form" action="{% url 'contact_us' %}" novalidate>
+        {% csrf_token %}
+
+        <span class="contact100-form-title">
+            Send Us A Message
+        </span>
+      
+        {% for hidden_field in contact_form.hidden_fields %}
+          {{ hidden_field }}
+        {% endfor %}
+      
+        {% if contact_form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {% for error in contact_form.non_field_errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        {% endif %}
+      
+        {% for field in contact_form.visible_fields %}
+
+            <div class="form-group">
+                <label class="label-input100">
+                    {{ field.label_tag }}
+                </label>
+        
+                {% if contact_form.is_bound %}
+                    {% if field.errors %}
+                        
+                            {% render_field field class="form-control is-invalid wrap-input100" %}
+                        
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    
+                        {% render_field field class="form-control is-valid wrap-input100" %}
+                    
+                    {% endif %}
+                {% else %}
+                    
+                        {% render_field field class="form-control wrap-input100" %}
+                    
+                {% endif %}
+        
+                {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+      
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form> -->
+
+<!-- Load widget Tweaks Attempt End -->
+
+
+
+
+
+
+
 
             </div>
         </div>

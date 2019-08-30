@@ -32,17 +32,11 @@
     <!---lightboard template-->
     <div class="wrapper">
         {% if user.is_authenticated %}
-        <script>
-            console.log("----")
-            console.log('{{user.profile.organisation_name}}')
-        </script>
             <!--Side Nav Bar--->
         <div class="sidebar" data-image="../../static/assets/img/sidebar-5.jpg" data-color="blue">
                 <div class="sidebar-wrapper">
                     <div class="logo-nav">
-                        <a href="{% url 'home' %}" class="simple-text">
-                            <img src="../../static/assets/img/logo_3.png" alt="logo" class="imagelogo-base">
-                        </a>
+                            <img src="../../static/assets/img/logo_4.png" alt="logo" class="imagelogo-base">
                     </div>
 
                     <ul class="nav navbar-nav">
@@ -62,31 +56,58 @@
                         </li>
                         {% endif %}
 
+                        {% if request.user.profile.organisation_name|stringformat:"s" == "CIVIS" %}
                         <li class="upload-file-item">
-                            <a class="nav-link" href="{% url 'upload_file' %}">
+                            <a class="nav-link" href="{% url 'choose_model' %}">
                                 <i class="nc-icon nc-simple-add"></i>
                                 <p>Upload File</p>
                             </a>
                         </li>
+                        {% else %}
+                        <li class="upload-file-item">
+                                <a class="nav-link" href="{% url 'upload_file' %}">
+                                    <i class="nc-icon nc-simple-add"></i>
+                                    <p>Upload File</p>
+                                </a>
+                            </li>
+                        {% endif %}
 
+                        {% if request.user.profile.organisation_name|stringformat:"s" == "ICMC" and user.is_staff %}
                         <li class="user-profile-item">
                             <a class="nav-link" href="{% url 'update_profile' request.user.pk %}">
                                 <i class="nc-icon nc-circle-09"></i>
                                 <p>User Profile</p>
                             </a>
                         </li>
+                        {% endif %}
 
-                        <!-- {% if request.user.profile.organisation_name != "CIVIS" %}
+                        {% if request.user.profile.organisation_name|stringformat:"s" != "CIVIS" %}
                         <li class="category-list-item">
-                            <a class="nav-link" href="{% url 'category_list' request.user %}">
+                            <a class="nav-link" href="{% url 'category_list' %}">
                                 <i class="nc-icon nc-bullet-list-67"></i>
                                 <p>Category List</p>
                             </a>
                         </li>
-                        {% endif %} -->
+                        {% elif request.user.profile.organisation_name|stringformat:"s" == "CIVIS" %}
+                            {% if user.is_staff %}
+                                <li class="add-proposal-item">
+                                    <a class="nav-link" href="{% url 'add_proposal' %}">
+                                        <i class="nc-icon nc-single-copy-04"></i>
+                                        <p>Add Proposal</p>
+                                    </a>    
+                                </li>    
+                            {% endif %}
+                        {% endif %}
 
-                        <li class="nav-item active active-pro">
-                            <a class="nav-link active" href="{% url 'logout' %}">
+                        <li class="wordcloud-item">
+                            <a class="nav-link" href="">
+                                <i class="nc-icon nc-chat-round"></i>
+                                <p>Word Cloud</p>
+                            </a>
+                        </li>
+
+                        <li class="logout-list-item">
+                            <a class="nav-link" href="{% url 'logout' %}">
                                 <i class="nc-icon nc-button-power"></i>
                                 <p>Log out</p>
                             </a>

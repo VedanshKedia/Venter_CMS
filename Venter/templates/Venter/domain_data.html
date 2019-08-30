@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+<link src="https://code.jquery.com/jquery-3.2.1.js">
+<link src="https://code.jquery.com/jquery-3.2.1.min.js">
+
+<script>
+    $(".response_list").each(function () {
+        $(this).children().each(function () {
+            '{% if filemeta.model_choice|stringformat:"s" == "sentence_model" %}'
+                let list_index = $(this);
+                let span_text = $(this).children().text();
+                span_text = span_text.slice(0, -1);
+                let score = parseInt(span_text);
+                colorcode(score, list_index);
+            '{% endif %}'
+        })
+    })
+    function sort_descending() {
+        $('#container').append($('#container .category-card').sort(function(a,b){
+            var cat_a = a.getAttribute('id');
+            var cat_b = b.getAttribute('id');
+            if (cat_a=='Novel') {
+                $(cat_a).attr("data-sort", '-1');
+            }
+            if (cat_b=='Novel') {
+                $(cat_b).attr("data-sort", '-1');
+            }
+            console.log("Cat A: ", cat_a);
+            console.log("Cat B: ", cat_b);
+            console.log("qwertyuio")
+            return b.getAttribute('data-sort')-a.getAttribute('data-sort');
+        }));
+    }
+    function sort_ascending() {
+        $('#container').append($('#container .category-card').sort(function(a,b){
+            var cat_a = a.getAttribute('id');
+            var cat_b = b.getAttribute('id');
+            if (cat_a=='Novel') {
+                $(cat_a).attr("data-sort", '-1');
+            }
+            if (cat_b=='Novel') {
+                $(cat_b).attr("data-sort", '-1');
+            }
+            console.log("Cat A: ", cat_a);
+            console.log("Cat B: ", cat_b);
+            console.log("qwertyuio")
+            return a.getAttribute('data-sort')-b.getAttribute('data-sort');
+        }));
+    }
+    function colorcode(score, li_index) {
+        if (score > 90) {
+            li_index.attr("style", "background-color: rgb(0,255,0) !important");
+        }
+        else if (score > 80) {
+            li_index.attr("style", "background-color: rgb(15,255,0) !important");
+        }
+        else if (score > 70) {
+            li_index.attr("style", "background-color: rgb(75,255,0) !important");
+        }
+        else if (score > 60) {
+            li_index.attr("style", "background-color: rgb(135,255,0) !important");
+        }
+        else if (score > 50) {
+            li_index.attr("style", "background-color: rgb(195,255,0) !important");
+        }
+        else if (score > 40) {
+            li_index.attr("style", "background-color: rgb(255,255,0) !important");
+        }
+        else if (score > 30) {
+            li_index.attr("style", "background-color: rgb(255,240,0) !important");
+        }
+        else if (score > 20) {
+            li_index.attr("style", "background-color: rgb(255,180,0) !important");
+        }
+        else if (score > 10) {
+            li_index.attr("style", "background-color: rgb(255,120,0) !important");
+        }
+        else {
+            li_index.attr("style", "background-color: rgb(255,60,0) !important");
+        }
+    }
+</script>
+<script>
+    console.log('{{category}}');
+    document.getElementById('{{category}}').scrollIntoView();
+</script>
+{% block content %}
+<div class="sort-buttons">
+    <button type="button" class="btn btn-primary" onclick="sort_ascending();">
+        Sort Ascending&nbsp;<i class="fa fa-edit download-fa" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="btn btn-primary" onclick="sort_descending();">
+        Sort Descending&nbsp;<i class="fa fa-edit download-fa" aria-hidden="true"></i>
+    </button>
+</div>
+{% for category,response in cardview_data.items %}
+{% if category == 'Statistics' %}
+<!--continue-->
+{% else %}
+<div id="container">
+    <div class="card category-card" id="{{category}}" data-sort={{response|length}}>
+        <div class="card-header">
+            <label class="label-category"><b>{{category}}</b></label>
+            <label class="label-category label-count"><b>{{response|length}}</b></label>
+            <hr>
+        </div>
+        <div class="card-body">
+            <div class="card-text">
+                {% if not response %}
+                <li class="list-group-item">No response</li>
+                {% else %}
+                {% if category == 'Novel' %}
+                <ul class="list-group no_response_list">
+                    {% for keys, item in response.items %}
+                    <li class="list-group-item">
+                        <b>Sub category {{forloop.counter}}</b>
+                    </li>
+                    {% for r in item %}
+                    <li class="list-group-item">
+                        {{r}}
+                    </li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <ul class="list-group response_list">
+                    {% for r in response %}
+                    <li class="list-group-item">
+                        {{r.response}}
+                        {% if filemeta.model_choice|stringformat:"s" == "sentence_model" %}
+                            <span class="response_score">{{r.score}}%</span>
+                        {% endif %}
+                    </li> <br>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

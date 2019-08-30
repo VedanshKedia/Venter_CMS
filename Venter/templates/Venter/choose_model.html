@@ -1,0 +1,107 @@
+{% extends 'Venter/base.html' %}
+{% block title %}Upload File{% endblock %}
+{% block content %}
+
+<!-- LINEARICONS -->
+<link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
+<script src="../../static/assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/assets/js/main.js"></script>
+<link rel="stylesheet" href="../../static/assets/css/choose_model.css">
+
+<script>
+    let model_choice;
+    $(document).ready(function () {
+        $(".card-body").mouseover(function(){
+            let card_id = $(this).closest(".card").attr("id");
+            if(card_id=="sentence_model_card"){
+                $("#sentence_model_card").css("border", "3px solid rgba(216, 112, 147)");
+                $("#keyword_model_card").css("border", "1px solid rgba(0,0,0,.125)");
+                model_choice = "sentence_model_card";
+            }
+            else if(card_id=="keyword_model_card"){
+                $("#keyword_model_card").css("border", "3px solid rgba(216, 112, 147)");
+                $("#sentence_model_card").css("border", "1px solid rgba(0,0,0,.125)");
+                model_choice = "keyword_model_card";
+            }
+        });
+        $(function () {
+            $('[data-toggle="popover"]').popover({ html : true })
+        })
+    });
+
+    function submit_model_choice()
+    {
+        if (typeof model_choice === "undefined"){
+            $(".inner-upload-file")
+            .append('<br>'+
+                        '<div class="alert alert-danger" id="choose-model-error-div">'+
+                            '<strong>Please select a machine learning model</strong>'+
+                        '</div>')
+        }
+        else{
+            document.getElementById('model_choice_name').value = model_choice;
+            document.getElementById('choose_model_form').submit();
+        }
+    }
+</script>
+
+<div class="outer-upload-file">
+    <form method="post" action="{% url 'choose_model' %}" enctype="multipart/form-data" id="choose_model_form">
+        {% csrf_token %}
+        <div class="inner-upload-file">
+            <div id="choose-model">
+                <div class="data title">Choose Model</div><br>
+                    <div class="card-deck">
+                        <div class="card" id="sentence_model_card">
+                            <img class="card-img-top" src="../../static/assets/img/sentence_model.png" alt="sentence model Card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <input type="button" class="btn btn-success model-btn" value="Sentence Model">
+                                    </div>  
+                                    <div class="col-sm-2">
+                                        <i class="fa fa-info-circle info-circle-fa" aria-hidden="true"
+                                        type="button"
+                                        data-toggle="popover"
+                                        title="<b>Sentence Model</b>" 
+                                        data-placement="bottom"
+                                        data-trigger="hover"
+                                        data-content="The ml model will analyze to identify the highest correlation between the input user responses/feedback and the pre-defined categories which will be complete sentences/phrases.<br><br>
+                                        For user responses that are solitary in nature, they would be further sub categorized and classified in our default Novel category."></i>
+                                    </div>  
+                                </div>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card" id="keyword_model_card">
+                            <img class="card-img-top" src="../../static/assets/img/keyword_model.png" alt="keyword model Card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <input type="button" class="btn btn-success model-btn" value="Keyword Model">
+                                    </div>  
+                                    <div class="col-sm-2">
+                                        <i class="fa fa-info-circle info-circle-fa" aria-hidden="true"
+                                            type="button"
+                                            data-toggle="popover"
+                                            title="<b>Keyword Model</b>"
+                                            data-placement="right"
+                                            data-trigger="hover"
+                                            data-content="The ml model will check for highest correlation between the input user responses/feedback and the keywords fed in by the user.<br><br>
+                                            Higher fine-grained analysis would enable our users to gain better insight into citizen engagement data."></i>
+                                    </div>
+                                </div>            
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                <input type="hidden" id="model_choice_name" name="model_choice_name" value=""/>
+                <button type="button" class="btn btn-success submit-model-choice" onclick="submit_model_choice();">
+                    Next&nbsp;<i class="fa fa-arrow-right arrow-fa" aria-hidden="true"></i>
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+{% endblock %}

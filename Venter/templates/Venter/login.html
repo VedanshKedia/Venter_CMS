@@ -29,7 +29,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-user icon" aria-hidden="true"></i>
                         </div>    
-                        <input type="text" placeholder="Enter Username" name="username" id="id_username" value="" required>
+                        <input type="text" placeholder="Enter Username" name="username" id="id_username" value="" required autofocus>
                     </div>
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -37,18 +37,10 @@
                         </div>    
                         <input type="password" placeholder="Enter Password" name="password" id="id_password" required>
                     </div>
-                    <!-- <div class="row" style="display:inline-block;">
-                            <input type="checkbox" name="remember" onclick="myFunction()">
-                            <label>Show Password</label> -->
-                        <!-- <div class="col-sm-1">
-                            <input type="checkbox" name="remember" onclick="myFunction()">
-                        </div>
-                        <div class="col-sm-4">   
-                            <label>Show Password</label>
-                        </div>  -->
-                    <!-- </div> -->
                 </div>
                 <br>
+                <a href="{% url 'password_reset' %}" style="color:blue;">Forgot Password?</a>
+                <br><br>
                 <div class="bottom_container">
                     <input type="submit" value="Login" class="submit-login">
                 </div>

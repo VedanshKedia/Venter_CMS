@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+{% load staticfiles %}
+<meta charset="utf-8" />
+<link rel="apple-touch-icon" sizes="76x76" href="../../static/assets/img/apple-icon.png">
+<link rel="icon" type="image/png" href="../../static/assets/img/favicon.ico">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+
+<link rel="stylesheet" href="../../static/assets/fonts/linearicons/style.css">
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+<!-- <link href="../../static/assets/css/bootstrap.min.css" rel="stylesheet" > -->
+<link href="../../static/assets/css/light-bootstrap-dashboard.css?v=2.0.1" rel="stylesheet" />
+
+
+<link rel="stylesheet" href="../../static/assets/css/chart_editor.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../static/assets/js/download.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['charteditor']});
+  </script>
+  <script type="text/javascript">
+    google.charts.setOnLoadCallback(loadEditor);
+    var chartEditor = null;
+
+    function loadEditor() {
+      var domain_name = '{{ domain_name }}';
+
+      var main_dict = jQuery.parseJSON('{{dict_data|escapejs}}');
+      var stats = main_dict[domain_name]['Statistics'];
+      stats = jQuery.parseJSON(stats);
+
+    var data = new google.visualization.arrayToDataTable(stats);
+        // Create the chart to edit.
+        var wrapper = new google.visualization.ChartWrapper({
+            'chartType': 'ColumnChart',
+            'dataTable': data,
+            'options': {
+                'title': 'test',
+                width: '1500',
+                height: '1600',
+                isStacked: true,
+                legend: {
+                    position: 'right'
+                },
+            }
+        });
+        chartEditor = new google.visualization.ChartEditor();
+        google.visualization.events.addListener(chartEditor, 'ok', redrawChart);
+        chartEditor.openDialog(wrapper, {});
+    }
+
+    function redrawChart(){
+      wrapper = chartEditor.getChartWrapper();
+      google.visualization.events.addListener(wrapper, 'ready', readyWrapper);
+      wrapper.draw(document.getElementById('vis_div'));
+    }
+
+    function readyWrapper(){
+        $('#download_graph-btn').click(function () {
+            var imageUri = wrapper.getChart().getImageURI();
+            download(imageUri, "chart", "image/png");
+        });
+    }
+  </script>
+<body>
+    <div class="sidebar" src="../../static/assets/img/sidebar-2.jpg" data-color="blue">
+        <div class="sidebar-wrapper">
+            <div class="logo-nav">
+                    <img src="../../static/assets/img/logo_4.png" alt="logo" class="imagelogo-base">
+            </div>
+
+            <ul class="nav navbar-nav">
+
+                <li class="dashboard-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">
+                        <i class="nc-icon nc-grid-45"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                {% if user.is_staff %}
+                <li class="register-employee-item">
+                    <a class="nav-link" href="{% url 'register_employee' %}">
+                        <i class="nc-icon nc-notes"></i>
+                        <p>Register Employee</p>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li class="upload-file-item">
+                    <a class="nav-link" href="{% url 'upload_file' %}">
+                        <i class="nc-icon nc-simple-add"></i>
+                        <p>Upload File</p>
+                    </a>
+                </li>
+
+                <li class="user-profile-item">
+                    <a class="nav-link" href="{% url 'update_profile' request.user.pk %}">
+                        <i class="nc-icon nc-circle-09"></i>
+                        <p>User Profile</p>
+                    </a>
+                </li>
+
+                {% if request.user.profile.organisation_name|stringformat:"s" != "CIVIS" %}
+                <li class="category-list-item">
+                    <a class="nav-link" href="{% url 'category_list' %}">
+                        <i class="nc-icon nc-bullet-list-67"></i>
+                        <p>Category List</p>
+                    </a>
+                </li>
+                
+                <li class="wordcloud-item">
+                    <a class="nav-link" href="">
+                        <i class="nc-icon nc-chat-round"></i>
+                        <p>Word Cloud</p>
+                    </a>
+                </li>   
+
+                {% endif %}
+
+                <li class="logout-list-item">
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <i class="nc-icon nc-button-power"></i>
+                        <p>Log out</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <p> Try Me...
+            <input type="submit" name="loadcharteditor" id="loadcharteditor" value="Edit me!" onclick="loadEditor()" style="font-size:18px;">
+        </p>
+        <div id="vis_div" class="chartsize"></div>
+        <button type="button" class="btn btn-primary" id="download_graph-btn">
+            Download graph &nbsp;<i class="fa fa-download download-fa" aria-hidden="true"></i>
+        </button>
+        <a href="{% url 'predict_result' filemeta.pk %}" class="btn btn-default" style="float:right;background-color: green;color: white;">back</a>
+    </div>  
+</body>
+</html>

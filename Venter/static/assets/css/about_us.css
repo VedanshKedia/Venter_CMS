@@ -1,0 +1,91 @@
+/*
+Styling for about_us.html
+*/
+  @font-face {
+    font-family: Poppins-Regular;
+    src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  }  
+
+  @font-face {
+    font-family: Montserrat-Light;
+    src: url('../fonts/montserrat/Montserrat-Light.ttf'); 
+  }
+  
+  @font-face {
+    font-family: Montserrat-Regular;
+    src: url('../fonts/montserrat/Montserrat-Regular.ttf'); 
+  }
+
+  .outer-as{
+    width: 100vw;
+    background-color: #accffe;
+  }
+  
+  .inner-as {
+    width: 100vw;
+    background-color: white;
+  }
+
+  .label1{
+    font-family: Poppins-Regular;
+    font-size: 40px;
+    color: #333333;
+    align-self: center;
+  }
+
+  .label2{
+    font-family: Montserrat-Light;
+    font-size: 18px;
+    color: #000000;
+  }
+
+  .label3{
+    font-family: Montserrat-Regular;
+    font-size: 18px;
+    color: #000000;
+  }
+
+  .upper-content{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 20px;
+  }
+
+  .lower-content{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-bottom: 50px;
+  }
+
+  .civis_impact1, .civis_impact2, .icmc_impact1, .icmc_impact2{
+    width: 150px;
+    height: 150px;
+    margin-left: 70px;
+  }
+
+  .impact_content{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .prof-link, .msr-link{
+    color: black;
+    font-family: Montserrat-Regular;
+  }
+
+  .prof-link:hover, .msr-link:hover{
+    text-decoration: underline;
+    color: black;
+    font-family: Montserrat-Regular;
+  }
+
+  .civis_logo{
+    width: 200px;
+    height: 150px;
+    margin-left: 50px;
+  }
+
+  .icmc_logo{
+    width: 200px;
+    height: 150px;
+    margin-left: 50px;
+  }

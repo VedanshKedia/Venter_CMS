@@ -1,0 +1,41 @@
+/*
+Styling for chart_editor.html
+*/
+.modal-dialog.google-visualization-charteditor-dialog {
+    left: 300px !important; 
+}
+
+.outer-vd{
+    background-color: whitesmoke;
+    height: 100vh;
+    justify-content: center;
+    padding-top: 2vh;
+}
+
+div.sidebar-wrapper li.wordcloud-item{
+    display: block;
+}
+
+ul {
+    list-style-type: none !important;
+    margin: 0;
+    padding: 0;
+}
+
+.nav.navbar-nav {
+    float: left;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.sidebar {
+    background-image: url(../img/sidebar-2.jpg) !important;
+}
+
+.back-btn{
+    float:right;
+    background-color: green;
+    color: white;
+}

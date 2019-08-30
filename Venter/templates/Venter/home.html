@@ -1,19 +1,69 @@
 {% extends 'Venter/index.html' %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
-<h1>Home page</h1><br>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="../../static/assets/css/home.css">
 <div class="content">
-    Venter is an automated complaint management system being developed at IIT Bombay, in collaboration with Microsoft
-    Research.
-    The goal of this project is to automate the processes involved in the categorisation of complaints registered on the
-    website of ICMC (I Change My City) which are further referred to MCGM (Municipal Corporation of Greater Mumbai)
-    website.
-    Currently, the complaints on MCGM are posted by users, but the categorization of those complaints is done manually,
-    which not only consumes time, but increases chances of errors due to human intervention.
-    <br><br>
-    Venter is based on a machine learning model, which is trained to classify the results based upon the traits
-    discovered in the csv that's been uploaded by the user.
+    <div class="fontimage">
+      <img class="mainimage" src="../../static/assets/img/finale1.jpg"  style="width:100%;">
+      <div class="title data">In Collaboration with</div>
+      <img src="../../static/assets/img/msr.jpg" id="imagesize">
+    </div><br><br>
+    <div class="w3-row-padding">
+        <div class="title data">Technology Stack Used</div>
+        <div class="w3-third">
+          <img class="techstack" src="../../static/assets/img/ml.jpg">
+          <div class="data">
+            <h2>Machine Learning</h2>
+            <p>The Venter tool uses state of the art NLP models - BERT, Deep Neural Netwroks and Wordnets trained on more than 3 billion words to provide autonomous features for text classification, response categorization, document summarization.</p>
+          </div>
+        </div>
+      
+        <div class="w3-third">
+          <img class="techstack" src="../../static/assets/img/nlp.jpg">
+          <div class="data">
+            <h2>Visualizations</h2>
+            <p>The Venter tool also provides effective and user-friendly interfaces to analyze and better understand these categorizations and features. The visualizations dashboard and the results are tuned to the user's intuition.</p>
+          </div>
+        </div>
+      
+        <div class="w3-third">
+          <img class="techstack" src="../../static/assets/img/db.jpg">
+          <div class="data">
+            <h2>Databases</h2>
+            <p>The website allows all the clients to register their emoployees as users. It also has a ubiquitous storage that allows the users to securely store their uploads, analysis, visualizations and results.</p>
+          </div>
+        </div>
+    </div><br><br><br>
+    <div class="title data">How it works</div>
+    <div class="w3-row-padding center">
+        <img  style="display:inline;" src="../../static/assets/img/yellowarrow.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+        <img class="process" style="display:inline;" src="../../static/assets/img/process1.png"> &nbsp;&nbsp;&nbsp;   
+        <img  style="display:inline;" src="../../static/assets/img/yellowarrow.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img class="process" style="display:inline;" src="../../static/assets/img/process2.png">&nbsp;&nbsp;&nbsp;  
+        <img  style="display:inline;" src="../../static/assets/img/yellowarrow.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img class="process" style="display:inline;" src="../../static/assets/img/process3.png">&nbsp;&nbsp;&nbsp; 
+    </div><br><br><br>
+    <div class="w3-row-padding border" sty>
+        <div class="title data">Our Clients</div>
+        <img class="mySlides" src="../../static/assets/img/civis.jpg" id="imagesize">
+        <img class="mySlides" src="../../static/assets/img/icmc.jpg" id="imagesize">
+        <img class="mySlides" src="../../static/assets/img/speakup.jpg" id="imagesize">
+    </div><br><br><br>
 </div>
-
+<script>
+var myIndex = 0;
+carousel();
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}    
+  x[myIndex-1].style.display = "block";  
+  setTimeout(carousel, 2500);    
+}
+</script>
 {% endblock %}
