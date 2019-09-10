@@ -12,7 +12,7 @@ from django.test.client import Client
 from django.urls import reverse
 
 from Backend.settings import ADMINS, BASE_DIR, MEDIA_ROOT
-from Venter.forms import ContactForm, CSVForm, ExcelForm, ProfileForm, UserForm
+from Venter.forms import ContactForm, CSVForm, KeywordModelForm, SentenceModelForm, ProfileForm, UserForm
 from Venter.models import (Category, Domain, File, Header, Keyword,
                            Organisation, Profile, Proposal)
 from Venter.views import CategoryListView
@@ -24,10 +24,31 @@ class LoginTestCase(TestCase):
     """
             Test case for user to log in with valid and invalid credentials
     """
-    fixtures = ["Venter/fixtures/fixture_new_1.json"]
+    # fixtures = ["Venter/fixtures/fixture_new_1.json"]
 
     def setUp(self):
-        self.client = Client()
+        # self.client = Client()
+
+        civis_org = Organisation.objects.create(organisation_name='CIVIS')
+        # Creating dummy users and profiles.
+        civis_user = User.objects.create_user(username='user1.civis', password='pass@1234')
+        Profile.objects.create(user=civis_user, organisation_name=civis_org)
+
+        civis_admin = User.objects.create_superuser(username='admin.civis', password='pass@1234', email='a@example.com')
+        civis_admin_profile = Profile.objects.create(user=civis_admin, organisation_name=civis_org)
+
+        # creating icmc user
+
+        icmc_org = Organisation.objects.create(organisation_name='ICMC')
+        # Creating dummy users and profiles.
+        icmc_user = User.objects.create_user(username='user1.icmc', password='pass@1234')
+        Profile.objects.create(user=icmc_user, organisation_name=icmc_org)
+
+        icmc_admin = User.objects.create_superuser(username='admin.icmc', password='pass@1234', email='a@example.com')
+        icmc_admin_profile = Profile.objects.create(user=icmc_admin, organisation_name=icmc_org)
+
+
+
 
     def test_login_admin_civis(self):
         response = self.client.get('/venter/login/')
@@ -69,10 +90,30 @@ class LogoutTestCase(TestCase):
     """
             Test case for user to log out
     """
-    fixtures = ["Venter/fixtures/fixture_new_1.json"]
+    # fixtures = ["Venter/fixtures/fixture_new_1.json"]
 
     def setUp(self):
-        self.client = Client()
+        # self.client = Client()
+
+
+        civis_org = Organisation.objects.create(organisation_name='CIVIS')
+        # Creating dummy users and profiles.
+        civis_user = User.objects.create_user(username='user1.civis', password='pass@1234')
+        Profile.objects.create(user=civis_user, organisation_name=civis_org)
+
+        civis_admin = User.objects.create_superuser(username='admin.civis', password='pass@1234', email='a@example.com')
+        civis_admin_profile = Profile.objects.create(user=civis_admin, organisation_name=civis_org)
+
+        # creating icmc user
+
+        icmc_org = Organisation.objects.create(organisation_name='ICMC')
+        # Creating dummy users and profiles.
+        icmc_user = User.objects.create_user(username='user1.icmc', password='pass@1234')
+        Profile.objects.create(user=icmc_user, organisation_name=icmc_org)
+
+        icmc_admin = User.objects.create_superuser(username='admin.icmc', password='pass@1234', email='a@example.com')
+        icmc_admin_profile = Profile.objects.create(user=icmc_admin, organisation_name=icmc_org)
+
 
     def test_logout_admin_civis(self):
         self.client.login(username='admin.civis', password="pass@1234")
@@ -111,34 +152,72 @@ class UploadFileTestCase(TestCase):
     """
         Test case for user to upload csv/xlsx file
     """
-    fixtures = ["Venter/fixtures/fixture_new_1.json"]
+    # fixtures = ["Venter/fixtures/fixture_new_1.json"]
 
     def setUp(self):
-        self.client = Client()
+        # self.client = Client()
 
-    def test_upload_valid_file_civis(self):
+
+        civis_org = Organisation.objects.create(organisation_name='CIVIS')
+        # Creating dummy users and profiles.
+        # civis_user = User.objects.create_user(username='user1.civis', password='pass@1234')
+        # Profile.objects.create(user=civis_user, organisation_name=civis_org)
+
+        civis_admin = User.objects.create_superuser(username='admin.civis', password='pass@1234', email='a@example.com')
+        civis_admin_profile = Profile.objects.create(user=civis_admin, organisation_name=civis_org)
+
+        # creating icmc user
+
+        icmc_org = Organisation.objects.create(organisation_name='ICMC')
+        # Creating dummy users and profiles.
+        # icmc_user = User.objects.create_user(username='user1.icmc', password='pass@1234')
+        # Profile.objects.create(user=icmc_user, organisation_name=icmc_org)
+
+        icmc_admin = User.objects.create_superuser(username='admin.icmc', password='pass@1234', email='a@example.com')
+        icmc_admin_profile = Profile.objects.create(user=icmc_admin, organisation_name=icmc_org)
+
+
+    def test_upload_valid_file_civis_sentence_model(self):
         self.client.login(username='admin.civis', password="pass@1234")
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/responses_1.xlsx'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/responses_1.xlsx'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         valid_data = {
-            "input_file": file_to_upload
+            "input_file": file_to_upload,
+            "model_choice_name": 'sentence_model_card'
         }
         response = self.client.post(reverse('upload_file'), valid_data, enctype='multipart/form-data')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, './Venter/upload_file.html')
+
+    def test_upload_valid_file_civis_keyword_model(self):
+        self.client.login(username='admin.civis', password="pass@1234")
+        response = self.client.get(reverse('upload_file'))
+        self.assertEqual(response.status_code, 200)
+
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/hwest_1.xlsx'), 'rb')
+        file_to_upload = SimpleUploadedFile(data.name, data.read())
+        valid_data = {
+            "input_file": file_to_upload,
+            "model_choice_name": 'keyword_model_card'
+        }
+        response = self.client.post(reverse('upload_file'), valid_data, enctype='multipart/form-data')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, './Venter/upload_file.html')
+
 
     def test_upload_invalid_file_civis(self):
         self.client.login(username='admin.civis', password="pass@1234")
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/15_rows_icmc.csv'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/15_rows_icmc.csv'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         invalid_data = {
-            "input_file": file_to_upload
+            "input_file": file_to_upload,
+            "model_choice_name": 'sentence_model_card'
         }
         response = self.client.post(reverse('upload_file'), invalid_data, enctype='multipart/form-data')
         self.assertEqual(response.status_code, 200)
@@ -150,7 +229,9 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        response = self.client.post(reverse('upload_file'), {"input_file": ''}, enctype='multipart/form-data')
+        response = self.client.post(reverse('upload_file'), 
+        {"input_file": '', "model_choice_name": 'sentence_model_card'}, 
+        enctype='multipart/form-data')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, './Venter/upload_file.html')
         self.assertFormError(response, "file_form", "input_file", "This field is required.")    
@@ -160,7 +241,7 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/15_rows_icmc.csv'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/15_rows_icmc.csv'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         valid_data = {
             "input_file": file_to_upload
@@ -174,7 +255,7 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/responses_1.xlsx'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/responses_1.xlsx'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         invalid_data = {
             "input_file": file_to_upload
@@ -199,7 +280,7 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/blank_icmc.csv'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/blank_icmc.csv'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         invalid_data = {
             "input_file": file_to_upload
@@ -214,7 +295,7 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/incorrect_headers_icmc.csv'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/incorrect_headers_icmc.csv'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         invalid_data = {
             "input_file": file_to_upload
@@ -229,7 +310,7 @@ class UploadFileTestCase(TestCase):
         response = self.client.get(reverse('upload_file'))
         self.assertEqual(response.status_code, 200)
 
-        data = open(os.path.join(MEDIA_ROOT, 'Coverage Test/5.3kb_icmc.csv'), 'rb')
+        data = open(os.path.join(MEDIA_ROOT, 'Test_Files/input/5.3kb_icmc.csv'), 'rb')
         file_to_upload = SimpleUploadedFile(data.name, data.read())
         invalid_data = {
             "input_file": file_to_upload
@@ -244,42 +325,63 @@ class WordCloudTestCase(TestCase):
     """
         Test case for users to view wordcloud for a set of responses per category
     """
-    fixtures = ["Venter/fixtures/fixture_new_1.json"]
+    # fixtures = ["Venter/fixtures/fixture_new_1.json"]
 
     def setUp(self):
-        self.client = Client()
+        # self.client = Client()
+        civis_org = Organisation.objects.create(organisation_name='CIVIS')
+        civis_admin = User.objects.create_superuser(username='admin.civis', password='pass@1234', email='a@example.com')
+        civis_admin_profile = Profile.objects.create(user=civis_admin, organisation_name=civis_org)
 
-    def test_icmc_wordcloud(self):
-        self.client.login(username="admin.icmc", password="pass@1234")
+        File.objects.create(uploaded_by=civis_admin_profile, 
+        input_file='media/Test_Files/input/responses_1.xlsx', 
+        output_file_json='Test_Files/output/results__responses_1.json',
+        wordcloud_data='Test_Files/wordcloud/wordcloud__responses_1.json' )
 
-        pk = 207
-        file = File.objects.get(pk=pk)
+    # def test_icmc_wordcloud(self):
+    #     self.client.login(username="admin.icmc", password="pass@1234")
+
+    #     pk = 207
+    #     file = File.objects.get(pk=pk)
         
-        org_name = Organisation.objects.get(organisation_name="ICMC")
-        category_queryset = Category.objects.filter(organisation_name=org_name)
-        category_list = []
-        for element in category_queryset:
-            cat = element.category
-            category_list.append(cat)
+    #     org_name = Organisation.objects.get(organisation_name="ICMC")
+    #     category_queryset = Category.objects.filter(organisation_name=org_name)
+    #     category_list = []
+    #     for element in category_queryset:
+    #         cat = element.category
+    #         category_list.append(cat)
 
-        response = self.client.get(reverse('wordcloud', kwargs={"pk": file.pk}))
+    #     response = self.client.get(reverse('wordcloud', kwargs={"pk": file.pk}))
         
-        self.assertEqual(response.context['category_list'], category_list)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, './Venter/wordcloud.html')
+    #     self.assertEqual(response.context['category_list'], category_list)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTemplateUsed(response, './Venter/wordcloud.html')
 
     def test_civis_wordcloud(self):
         self.client.login(username="admin.civis", password="pass@1234")
+        civis_admin = User.objects.get(username='admin.civis')
+        civis_admin_profile = Profile.objects.get(user=civis_admin)
+        # file = File.objects.create(uploaded_by=civis_admin_profile, 
+        # input_file='media/Test_Files/input/responses_1.xlsx', 
+        # output_file_json='media/Test_Files/output/results__responses_1.json')
+        
 
-        pk = 212
-        file = File.objects.get(pk=pk)
+        # pk = 212
+        file = File.objects.get(input_file='media/Test_Files/input/responses_1.xlsx')
 
-        domain_name = "Heritage Conservation"
+        print("\n----file----\n", file)
+        print("\n----file.pk-----\n", file.pk)
+
+        domain_name = "environment"
         wordcloud_category_list = []
+        print("-----\n", file.output_file_json.path)
+        print("-----\n", file.output_file_json.url)
+        with open('media/Test_Files/output/results__responses_1.json', "r") as read_file:
+            dict_data = json.load(read_file)
 
-        dict_data = json.load(file.output_file_json)
+        # dict_data = json.load(file.output_file_json)
         print("=====================dict_data in test case: ", type(dict_data))
-        print(dict_data)
+        # print(dict_data)
         domain_data = dict_data[domain_name]
         print("=====================domain_data in test case: ", type(domain_data))
         print(domain_data)
@@ -304,13 +406,16 @@ class WordCloudTestCase(TestCase):
 
     def test_civis_wordcloud_content(self):
         self.client.login(username="admin.civis", password="pass@1234")
+        civis_admin = User.objects.get(username='admin.civis')
+        civis_admin_profile = Profile.objects.get(user=civis_admin)
+        # file = File.objects.create(uploaded_by=civis_admin_profile, input_file='media/Test_Files/input/responses_1.xlsx')
 
-        pk = 212
-        file = File.objects.get(pk=pk)
+        # pk = 212
+        file = File.objects.get(input_file='media/Test_Files/input/responses_1.xlsx')
 
-        domain_name = "Heritage Conservation"
-        category_name = "set the boundaries of these heritage zones and said that these areas should be conserved, protected and highlighted by provision of transport facilities and tourist infrastructure"
-        temp_cat_list = json.dumps("{'set the boundaries of these heritage zones and said that these areas should be conserved, protected and highlighted by provision of transport facilities and tourist infrastructure', 'The 12 heritage zones identified are: Central Administrative Heritage Zone, Petta and Bangalore Fort, Gavipuram, Basavanagudi and VV Puram, M.G.Road, Shivajinagar, Cleveland Town, Richards Town, Malleshwaram, Ulsoor, Whitefield Inner Circle, Begur Temple and Bangalore Palace Heritage Zone'}")
+        domain_name = "environment"
+        category_name = "houses"
+        temp_cat_list = json.dumps("{'houses', 'floors', 'buildings', 'redevelopments', 'permissions', 'backlogs', 'sqms', 'developers', 'fars', 'governments', 'agencies', 'properties', 'sections', 'states', 'flats', 'lands', 'numbers', 'townships', 'plans', 'corporates', 'housings', 'cities', 'meants', 'ews'}")
         data = {
             "category_name": category_name,
             "domain_name": domain_name,
@@ -345,9 +450,9 @@ class DashboardTestCase(TestCase):
         civis_admin = User.objects.create_superuser(username='test_admin', password='adminadmin', email='a@example.com')
         admin_profile = Profile.objects.create(user=civis_admin, organisation_name=civis_org)
 
-        File.objects.create(uploaded_by=admin_profile, input_file='MEDIA/Test_Files/input/responses_1.xlsx')
-        File.objects.create(uploaded_by=admin_profile, input_file='MEDIA/Test_Files/input/responses_2.xlsx')
-        File.objects.create(uploaded_by=admin_profile, input_file='MEDIA/Test_Files/input/extra_dummy_file_civis.xlsx')
+        File.objects.create(uploaded_by=admin_profile, input_file='media/Test_Files/input/responses_1.xlsx')
+        File.objects.create(uploaded_by=admin_profile, input_file='media/Test_Files/input/responses_2.xlsx')
+        File.objects.create(uploaded_by=admin_profile, input_file='media/Test_Files/input/extra_dummy_file_civis.xlsx')
 
     def test_file_list_view_employee(self):
         self.client.login(username='test_user', password='useruser')
@@ -364,7 +469,7 @@ class DashboardTestCase(TestCase):
         # Create a file object uploaded by the user to check whether the file list works as expected
         test_user = User.objects.get(username='test_user')
         test_user_profile = Profile.objects.get(user=test_user)
-        File.objects.create(uploaded_by=test_user_profile, input_file='MEDIA/Test_Files/input/responses_3.xlsx')
+        File.objects.create(uploaded_by=test_user_profile, input_file='media/Test_Files/input/responses_3.xlsx')
         response = self.client.get(reverse('dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, './Venter/dashboard.html')
@@ -379,7 +484,7 @@ class DashboardTestCase(TestCase):
         # For the admins, we expect all the files in setUp to be displayed alongside the new file
         test_user = User.objects.get(username='test_user')
         test_user_profile = Profile.objects.get(user=test_user)
-        File.objects.create(uploaded_by=test_user_profile, input_file='MEDIA/Test_Files/input/responses_3.xlsx')
+        File.objects.create(uploaded_by=test_user_profile, input_file='media/Test_Files/input/responses_3.xlsx')
 
         # Checking whether all files created in the setUp function and the new file are all displayed
         response = self.client.get(reverse('dashboard'))
@@ -395,7 +500,7 @@ class DashboardTestCase(TestCase):
         # Create a file object uploaded by the user to check whether the file list works as expected
         test_user = User.objects.get(username='test_user')
         test_user_profile = Profile.objects.get(user=test_user)
-        File.objects.create(uploaded_by=test_user_profile, input_file='MEDIA/Test_Files/input/responses_3.xlsx')
+        File.objects.create(uploaded_by=test_user_profile, input_file='media/Test_Files/input/responses_3.xlsx')
 
         # Verify the number of files
         response = self.client.get(reverse('dashboard'))
@@ -1099,19 +1204,19 @@ class AddProposalTestCase(TestCase):
         response = self.client.get(reverse('add_proposal'))
         self.assertEqual(response.status_code, 200)
 
-        proposal_obj = Proposal.objects.create(proposal_name='lmn')
+        proposal_obj = Proposal.objects.create(proposal_name='lmn2')
         proposal_obj.save()
 
-        keyword_list = json.dumps("{'a', 'b', 'c'}")
+        keyword_list = json.dumps("{'a', 'b', 'c', 'd'}")
 
-        invalid_data = {
-            "proposal_name": 'lmn',
-            "domain_name": 'xyz',
+        valid_data = {
+            "proposal_name": 'lmn2',
+            "domain_name": 'xyzv',
             "keyword_list": keyword_list,
             "final_submit": True,
             "one_save_operation": True,
         }
-        response = self.client.post(reverse('add_proposal'), invalid_data, enctype='multipart/form-data')
+        response = self.client.post(reverse('add_proposal'), valid_data, enctype='multipart/form-data')
 
         # category_list = json.loads(keyword_list)
         self.assertEqual(response.context['final_submit'], True)

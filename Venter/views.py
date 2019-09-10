@@ -362,6 +362,8 @@ class AddProposalView(LoginRequiredMixin, CreateView):
         temp_final_submit = request.POST['final_submit']
         temp_one_save_operation = request.POST['one_save_operation']
 
+        final_submit = False
+
         if temp_final_submit == "true":
             final_submit = True
         elif temp_final_submit == "false":
@@ -391,6 +393,7 @@ class AddProposalView(LoginRequiredMixin, CreateView):
 
             try:
                 domain_obj = Domain.objects.create(proposal_name=proposal_obj, domain_name=domain_name)
+            # except:
             except IntegrityError as e:
                 domain_form.add_error('domain_name', 'Domain for this Domain name already exists')
                 return render(request, './Venter/add_proposal.html',
@@ -1029,6 +1032,7 @@ def wordcloud_contents(request, pk):
         category_queryset = Category.objects.filter(organisation_name='ICMC').values_list('category', flat=True)
         wordcloud_category_list = list(category_queryset)
         return render(request, './Venter/wordcloud.html', {'category_list': wordcloud_category_list, 'filemeta': filemeta, 'words': words})
+
     elif str(request.user.profile.organisation_name) == 'CIVIS':
         category_name = request.POST['category_name']
         domain_name = request.POST['domain_name']
